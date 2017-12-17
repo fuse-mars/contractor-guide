@@ -41,13 +41,31 @@ interface Video {
 }
 ```
 
+Now we need a way to store user credentials and profile
+```typescript
+interface Auth {
+  tokenType: string
+  token: string
+}
+```
+
+```typescript
+interface User {
+  name: string
+  email: string
+  isContractor: boolean
+}
+```
+
 # Complete state 
 
 ```typescript
-interface IStateModel {
+interface StateModel {
   auth: Auth
   me: User
   tasks: Array<Task>
   shared: Array<Task>
 }
 ```
+
+
