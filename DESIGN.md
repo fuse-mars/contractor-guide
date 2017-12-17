@@ -13,9 +13,9 @@ interface Task {
 ```
 
 A `Step` has instructions that allows a user to get part of the task done.
-* 1. A *Step* can be a Text
-* 2. A *Step* can be an Image
-* 3. A *Step* can be a Video
+1. A *Step* can be a Text
+2. A *Step* can be an Image
+3. A *Step* can be a Video
 
 * NOTE that for clarity, a *Step* must have one and only 
 
