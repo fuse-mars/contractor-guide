@@ -1,0 +1,53 @@
+# State Model
+
+Only business requirements we have is that `A user wants to create a list of steps to follow to get a common task done`
+
+So the Domain model can be a **DO IT YOURSELF** `Task`, which has the **task description** and a **list of steps** to finish the task.
+
+```typescript
+interface Task {
+  description: string
+  steps: Array<Step>
+  author: User
+}
+```
+
+A `Step` has instructions that allows a user to get part of the task done.
+* 1. A *Step* can be a Text
+* 2. A *Step* can be an Image
+* 3. A *Step* can be a Video
+
+* NOTE that for clarity, a *Step* must have one and only 
+
+```typescript
+interface Step {
+  order: number
+  contentType: enum // TEXT, IMAGE, VIDEO
+  content: Text | Image | Video 
+}
+```
+
+```typescript
+interface Text {
+  description: string
+}
+interface Image {
+  mediaType: string
+  url: STRING
+}
+interface Video {
+  mediaType: string
+  url: string
+}
+```
+
+# Complete state 
+
+```typescript
+interface IStateModel {
+  auth: Auth
+  me: User
+  tasks: Array<Task>
+  shared: Array<Task>
+}
+```
