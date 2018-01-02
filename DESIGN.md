@@ -143,3 +143,35 @@ mastermind.update('genericApiUpdate', {
 	},
 })
 ```
+
+## Delete a step from an existing task
+```typescript
+import { createStepUrl } from './Api' // TODO
+
+mastermind.update('genericApiUpdate', {
+	serviceOptions: {
+		url: createStepUrl,
+		method: 'POST'
+		data: { taskId, step }
+	},
+	successActions: {
+		deleteStepFromStore: {
+			locationFunction: ({ res }) => {
+				const stepId = res.data.step.id
+				return ['data', 'tasks', taskId, 'steps', stepId]
+			},
+			operation: 'removeIn',
+			valueFunction: ({ res }) => res.data.step
+		}
+	},
+	failureActions: {
+		recordFailure: {
+			location: ['appState', 'errors', 'createNewStep'],
+			operation: 'setIn',
+			valueFunction: ({ error }) => error
+		}
+	},
+})
+```
+
+
