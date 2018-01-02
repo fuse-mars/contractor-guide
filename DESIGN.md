@@ -69,8 +69,7 @@ interface StateModel {
 ```
 
 * NOTE that since we are planning to use `mastermind` library for state management, we will modify the structure of the state model a little.
-
-  * We'll be replacing `Array` with `Immutable.Map` everywhere in our store. Ex. `Array<Step> => Immutable.Map<String, Step>` where the key in this map is an id of the object being saved.
+	* We'll be replacing `Array` with `Immutable.Map` everywhere in our store. Ex. `Array<Step> => Immutable.Map<String, Step>` where the key in this map is an id of the object being saved.
 
 ```typescript
 interface StateModel {
