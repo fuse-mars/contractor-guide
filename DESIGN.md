@@ -160,7 +160,7 @@ mastermind.update('genericApiUpdate', {
 				return ['data', 'tasks', taskId, 'steps', stepId]
 			},
 			operation: 'removeIn',
-			valueFunction: ({ res }) => res.data.step,
+			value: null,
 		}
 	},
 	failureActions: {
@@ -183,7 +183,7 @@ mastermind.update('genericApiUpdate', {
 		method: 'DELETE'
 	},
 	successActions: {
-		deleteStepFromStore: {
+		deleteTaskFromStore: {
 			locationFunction: () => (['data', 'tasks', taskId]),
 			operation: 'removeIn',
 			value: null
