@@ -165,7 +165,7 @@ mastermind.update('genericApiUpdate', {
 	},
 	failureActions: {
 		recordFailure: {
-			location: ['appState', 'errors', 'createNewStep'],
+			location: ['appState', 'errors', 'deleteExistingStep'],
 			operation: 'setIn',
 			valueFunction: ({ error }) => error,
 		}
@@ -184,17 +184,14 @@ mastermind.update('genericApiUpdate', {
 	},
 	successActions: {
 		deleteStepFromStore: {
-			locationFunction: ({ res }) => {
-				const stepId = res.data.step.id
-				return ['data', 'tasks', taskId, 'steps', stepId]
-			},
+			locationFunction: () => (['data', 'tasks', taskId]),
 			operation: 'removeIn',
-			valueFunction: ({ res }) => res.data.step
+			value: null
 		}
 	},
 	failureActions: {
 		recordFailure: {
-			location: ['appState', 'errors', 'createNewStep'],
+			location: ['appState', 'errors', 'deleteExistingTask'],
 			operation: 'setIn',
 			valueFunction: ({ error }) => error
 		}
