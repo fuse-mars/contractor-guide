@@ -1,5 +1,5 @@
 import React from 'react';
-import { Landing as LandingComponent } from '../../components'
+import { Landing as LandingComponent } from '../../../components'
 import { Redirect } from 'react-router';
 
 /**

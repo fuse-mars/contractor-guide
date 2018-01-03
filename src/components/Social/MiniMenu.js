@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Input, Label, Menu } from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
 
 export default class MenuExampleSizeVerticalMini extends Component {
   state = { activeItem: 'inbox' }
@@ -11,15 +12,19 @@ export default class MenuExampleSizeVerticalMini extends Component {
 
     return (
       <Menu size='small' vertical fluid="true">
-        <Menu.Item name='inbox' active={activeItem === 'inbox'} onClick={this.handleItemClick}>
-          <Label color='teal'>12</Label>
-          Collection
-        </Menu.Item>
+        <Link to="/collection">
+          <Menu.Item name='inbox' active={activeItem === 'inbox'} onClick={this.handleItemClick} >
+            <Label color='teal'>12</Label>
+            Collection
+          </Menu.Item>
+        </Link>
 
-        <Menu.Item name='spam' active={activeItem === 'spam'} onClick={this.handleItemClick}>
-          <Label>0</Label>
-          Guides
-        </Menu.Item>
+        <Link to="/guides">
+          <Menu.Item name='spam' active={activeItem === 'spam'} onClick={this.handleItemClick}>
+            <Label>0</Label>
+            Guides
+          </Menu.Item>
+        </Link>
 
         <Menu.Item name='updates' active={activeItem === 'updates'} onClick={this.handleItemClick}>
           <Label>0</Label>

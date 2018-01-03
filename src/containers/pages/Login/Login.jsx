@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Login as LoginComponent } from '../../components'
-import { Register as RegisterComponent } from '../../components'
+import { Login as LoginComponent, Register as RegisterComponent } from '../../../components'
 import { Redirect } from 'react-router';
 
 /**

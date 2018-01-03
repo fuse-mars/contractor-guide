@@ -3,9 +3,11 @@ import logo from '../../assets/images/logo.svg';
 import './App.css';
 import { Navigation } from '../Navigation';
 
+import testRedux from '../../redux/index.test'
+
 class App extends Component {
   render() {
-    return (<Navigation isLoggedIn={true} />);
+    return (<Navigation isLoggedIn={false} />);
   }
 }
 

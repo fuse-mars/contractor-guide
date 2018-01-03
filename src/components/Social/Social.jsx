@@ -8,17 +8,14 @@ import { FeedSummary, MiniMenu, MyFeed } from '.'
 
 const Social = () => (
 
-    <Grid container doubling stackable>
-      <Grid.Column width={3}>
-        <MiniMenu/>
-      </Grid.Column>
+    <React.Fragment>
       <Grid.Column width={9}>
         <MyFeed/>
       </Grid.Column>
       <Grid.Column width={4} >
         <FeedSummary/>
       </Grid.Column>
-    </Grid>
+    </React.Fragment>
 
 )
 

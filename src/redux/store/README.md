@@ -44,6 +44,7 @@ interface Video {
 Now we need a way to store user credentials and profile
 ```typescript
 interface Auth {
+  isLoggedIn: boolean
   tokenType: string
   token: string
 }
@@ -73,7 +74,7 @@ interface StateModel {
 
 ```typescript
 interface StateModel {
-  appState: { isFetching: {}, errors: {}. modals: {} },
+  appState: { isFetching: {}, errors: {}, modals: {} },
   auth: { user: User, auth: Auth }
   data: { tasks: Immutable.Map<String, Task>, shared: Immutable.Map<String, Task> }
 }

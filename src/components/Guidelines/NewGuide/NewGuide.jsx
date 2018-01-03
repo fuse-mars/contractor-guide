@@ -3,7 +3,7 @@ import './NewGuide.css';
 
 class NewGuide extends React.Component {
     render() {
-        return (<div>TODO</div>);
+        return (<div>TODO Add logic to create new guide</div>);
     }
 }
 
