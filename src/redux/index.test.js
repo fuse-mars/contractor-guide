@@ -1,4 +1,5 @@
-import Pretender from 'pretender'
+'use strict'
+var Pretender = require('pretender')
 // console.log()
 
 import { mastermind, ActionTypes } from '.'

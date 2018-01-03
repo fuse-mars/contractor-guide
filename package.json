@@ -23,6 +23,6 @@
   },
   "devDependencies": {
     "concurrently": "^3.5.1",
-    "pretender": "^1.6.1"
+    "pretender": "git+https://github.com/fuse-mars/pretender.git"
   }
 }

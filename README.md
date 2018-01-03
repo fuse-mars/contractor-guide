@@ -1,5 +1,7 @@
 # contractor-guide
 
+[![Build Status](https://travis-ci.org/fuse-mars/contractor-guide.svg?branch=develop)](https://travis-ci.org/fuse-mars/contractor-guide)
+
 The contractor's Guide
 
 A list of things to know/todo in order to easily start their contract work in a new office environment. 
