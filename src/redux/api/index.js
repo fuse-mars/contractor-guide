@@ -1,2 +1,2 @@
-export const createGuideUrl = 'TODO'
+export const createGuideUrl = '/api/guides'
 export const shareGuideUrl = 'TODO'

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, Switch } from 'react-router';
+import { Route, Router, Redirect, Switch } from 'react-router';
 import { Home, Landing, Login, Guidelines, NewGuide, Guide } from '../pages';
 
 /**
@@ -18,12 +18,12 @@ class Navigation extends React.Component {
     let { isLoggedIn } = this.props;
     
     return (
-      <Switch>
-        <HomeRoute exact path='/' component={Home} isLoggedIn={isLoggedIn}/>          
-        <PublicRoute exact path='/landing' component={Landing} isLoggedIn={isLoggedIn}/>
-        <PublicRoute exact path='/login' component={Login} isLoggedIn={isLoggedIn}/>  
-        <PrivateRoute component={Home} isLoggedIn={isLoggedIn}/>
-      </Switch>
+        <Switch>
+          <HomeRoute exact path='/' component={Home} isLoggedIn={isLoggedIn}/>          
+          <PublicRoute exact path='/landing' component={Landing} isLoggedIn={isLoggedIn}/>
+          <PublicRoute exact path='/login' component={Login} isLoggedIn={isLoggedIn}/>  
+          <PrivateRoute component={Home} isLoggedIn={isLoggedIn}/>
+        </Switch>
     )
 
   }

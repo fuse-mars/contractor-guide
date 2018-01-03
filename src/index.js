@@ -6,12 +6,10 @@ import { App } from './containers';
 import './styles/index.css';
 import './styles/semantic/dist/semantic.min.css';
 
-import { BrowserRouter } from 'react-router-dom';
 
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-<BrowserRouter>
-    <App />
-</BrowserRouter>, document.getElementById('root'));
+    <App />, document.getElementById('root')
+);
 registerServiceWorker();
