@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { render } from "react-dom";
 import {
   Container,
@@ -10,7 +10,6 @@ import {
   Responsive
 } from "semantic-ui-react";
 
-// import { Main } from '../containers'
 import { SearchBarNav } from '../index'
 
 const NavBarMobile = ({
@@ -27,7 +26,21 @@ const NavBarMobile = ({
         animation="overlay"
         icon="labeled"
         inverted
-        items={leftItems.map(function (item) { return (item.url != "/") ? <NavLink to={item.url}><Menu.Item id="mobileNavItem" style={{ height: "70px" }} as="a" key={item.key}><Icon name={item.icon} />{item.content}</Menu.Item></NavLink> : <NavLink to={item.url}><Menu.Item id="mobileNavItem" style={{ height: "60px" }} as="a" key={item.key}> <div style={{ padding: "auto" }}> <Image style={{ margin: "auto", marginBottom: "3px" }} size="mini" src={require('../assets/images/logo.png')} /></div></Menu.Item></NavLink> })}
+        items={leftItems.map( (item, i) => {
+          return (item.url != "/") ? 
+            <NavLink to={item.url} key={item.key || i}>
+              <Menu.Item id="mobileNavItem" style={{ height: "70px" }}>
+                <Icon name={item.icon} />{item.content}
+              </Menu.Item>
+            </NavLink> : 
+            <NavLink to={item.url} key={item.key || i}>
+              <Menu.Item id="mobileNavItem" style={{ height: "60px" }}> 
+                <div style={{ padding: "auto" }}>
+                  <Image style={{ margin: "auto", marginBottom: "3px" }} size="mini" src={require('../../assets/images/logo.svg')} />
+                </div>
+              </Menu.Item>
+            </NavLink>
+          })}
         vertical
         visible={visible}
         width="thin"
@@ -46,7 +59,9 @@ const NavBarMobile = ({
             <Menu.Item id="searchBarNav">
               <SearchBarNav />
             </Menu.Item>
-            {rightItems.map(item => <NavLink className="a" to={item.url}><Menu.Item style={{ height: "60px" }} as="a" key={item.key}>{item.content}</Menu.Item></NavLink>)}
+            {rightItems.map((item, i) => <NavLink className="a" to={item.url} key={item.key || i}>
+              <Menu.Item style={{ height: "60px" }} >{item.content}</Menu.Item>
+            </NavLink>)}
           </Menu.Menu>
         </Menu>
 
@@ -58,11 +73,13 @@ const NavBarDesktop = ({ leftItems, rightItems }) => (
   <Menu fixed="top" inverted>
     <Container>
       <Menu.Item>
-        <NavLink className="a" to="/"><Image size="mini" src={require('../assets/images/logo.png')} /></NavLink>
+        <NavLink className="a" to="/"><Image size="mini" src={require('../../assets/images/logo.svg')} /></NavLink>
       </Menu.Item>
-      {leftItems.map(function (item) {
+      {leftItems.map(function (item, i) {
         // On Desktop Nav the logo is the home "/" link, so I don't render it
-        return (item.url != "/") ? <NavLink className="a" to={item.url}><Menu.Item style={{ height: "60px" }} as="a" key={item.key}>{item.content}</Menu.Item></NavLink> : null
+        return (item.url != "/") ? <NavLink className="a" to={item.url} key={i}>
+          <Menu.Item style={{ height: "60px" }} key={item.key}>{item.content}</Menu.Item>
+        </NavLink> : null
       })}
       <Menu.Menu position="right">
         <Menu.Item id="searchBarNav">
@@ -72,7 +89,7 @@ const NavBarDesktop = ({ leftItems, rightItems }) => (
           rightItems.map((item, i) => 
             <NavLink className="a" to={item.url} key={i}>
             <Menu.Item style={{ height: "60px" }} 
-              as="a" key={item.key}>{item.content}
+              key={item.key}>{item.content}
               </Menu.Item></NavLink>)}
       </Menu.Menu>
     </Container>
@@ -98,8 +115,7 @@ class NavBar extends Component {
   handleToggle = () => this.setState({ visible: !this.state.visible });
 
   render() {
-    const { children, leftItems, rightItems, id } = this.props;
-    console.log(id)
+    const { children, leftItems, rightItems } = this.props;
     const { visible } = this.state;
 
     return (

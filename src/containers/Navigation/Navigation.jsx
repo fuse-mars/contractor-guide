@@ -1,6 +1,7 @@
 import React from 'react';
-import { Landing, Login } from '../../components';
-import Home from '../Home';
+import { Route, Redirect, Switch } from 'react-router';
+import { Landing, Login } from '../index';
+import { Home } from '../Home';
 
 /**
  * 1. If user logged in, show Home page
@@ -10,28 +11,59 @@ import Home from '../Home';
 interface PropsIface {
   isLoggedIn?: boolean;
 }
-interface StateIface {
-  showLoginPage: boolean;
-}
 
  */
 class Navigation extends React.Component {
-  state = {
-    showLoginPage: false
-  };
 
   render() {
-    let { showLoginPage } = this.state;
     let { isLoggedIn } = this.props;
+    
+    return (
+      <Switch>
+        <HomeRoute exact path='/' component={Home} isLoggedIn={isLoggedIn}/>          
+        <PublicRoute exact path='/landing' component={Landing} isLoggedIn={isLoggedIn}/>
+        <PublicRoute exact path='/login' component={Login} isLoggedIn={isLoggedIn}/>  
+        <PrivateRoute component={Home} isLoggedIn={isLoggedIn}/>
+      </Switch>
+    )
 
-    if (isLoggedIn) {
-      return <Home />;
-    } else if (showLoginPage) {
-      return <Login />;
-    } else {
-      return <Landing />;
-    }
   }
 }
+
+const HomeRoute = ({ component: Component, isLoggedIn, ...rest }) => (
+  <Route {...rest} render={props => (
+    isLoggedIn ? (
+      <Component {...props}/>
+    ) : (
+      <Redirect to='/landing'/>
+    )
+  )}/>
+)
+
+const PrivateRoute = ({ component: Component, isLoggedIn, ...rest }) => (
+  <Route {...rest} render={props => (
+    isLoggedIn ? (
+      <Component {...props}/>
+    ) : (
+      <Redirect to={{
+        pathname: '/login',
+        state: { from: props.location }
+      }}/>
+    )
+  )}/>
+)
+
+const PublicRoute = ({ component: Component, isLoggedIn, ...rest }) => (
+  <Route {...rest} render={props => (
+    !isLoggedIn ? (
+      <Component {...props}/>
+    ) : (
+      <Redirect to={{
+        pathname: '/',
+        state: { from: props.location }
+      }}/>
+    )
+  )}/>
+)
 
 export default Navigation;

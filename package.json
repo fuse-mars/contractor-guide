@@ -3,15 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "faker": "^4.1.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
     "semantic-ui-react": "^0.77.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run react:start",
+    "react:start": "react-scripts start",
+    "gulp:start": "gulp --gulpfile src/styles/semantic/gulpfile.js",
+    "start:react:gulp": "concurrently --kill-others 'npm run react:start' 'npm run gulp:start'",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1"
   }
 }

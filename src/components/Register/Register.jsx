@@ -1,12 +1,12 @@
 import * as React from 'react';
-import './Login.css';
+import './Register.css';
 
 import { Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 class Landing extends React.Component {
     render() {
-        let { onSubmitLogin, onGoToRegister } = this.props
+        let { onSubmitRegister, onGoToLogin } = this.props
         return (<div className="login ui middle aligned center aligned grid">
                 <div className="column">
                     <h2 className="ui teal image header">
@@ -29,7 +29,13 @@ class Landing extends React.Component {
                                     <input type="password" name="password" placeholder="Password" />
                                 </div>
                             </div>
-                            <div onClick={onSubmitLogin} className="ui fluid large teal submit button">Login</div>
+                            <div className="field">
+                                <div className="ui left icon input">
+                                    <i className="lock icon"></i>
+                                    <input type="password" name="password" placeholder="Confirm" />
+                                </div>
+                            </div>
+                            <div onClick={onSubmitRegister} className="ui fluid large teal submit button">Register</div>
                         </div>
 
                         <div className="ui error message"></div>
@@ -37,7 +43,7 @@ class Landing extends React.Component {
                     </form>
 
                     <div className="ui message">
-                        New to us? <a onClick={onGoToRegister} href="#">Register</a>
+                        Coming back? <a onClick={onGoToLogin} href="#">Login</a>
                     </div>
                 </div>
             </div>);

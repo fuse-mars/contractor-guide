@@ -5,7 +5,7 @@ import { Navigation } from '../Navigation';
 
 class App extends Component {
   render() {
-    return (<Navigation />);
+    return (<Navigation isLoggedIn={true} />);
   }
 }
 
