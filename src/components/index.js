@@ -4,4 +4,4 @@ export { Register } from './Register';
 export { NavBar } from './NavBar';
 export { SearchBarNav } from './SearchBarNav';
 export { Social } from './Social';
-export { NewTask } from './NewTask';
+export { Guidelines, NewGuide, Guide } from './Guidelines';

@@ -5,7 +5,7 @@ import { NavBar } from '../../components';
 // Menu Items
 const leftItems = [
   { as: 'a', content: 'Home', key: 'home', icon: 'home', url: '/'},
-  { as: 'a', content: 'New Guide', key: 'form', icon: 'write', url: 'new' }
+  { as: 'a', content: 'New Guide', key: 'form', icon: 'write', url: 'guidelines/new' }
 ];
 const rightItems = [
   { as: 'a', content: 'Logout', key: 'logout', url: 'logout' },

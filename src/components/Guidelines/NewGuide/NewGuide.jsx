@@ -1,10 +1,10 @@
 import * as React from 'react';
-import './NewTask.css';
+import './NewGuide.css';
 
-class NewTask extends React.Component {
+class NewGuide extends React.Component {
     render() {
         return (<div>TODO</div>);
     }
 }
 
-export default NewTask;
+export default NewGuide;

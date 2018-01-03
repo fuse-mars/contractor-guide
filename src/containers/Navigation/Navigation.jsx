@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router';
-import { Landing, Login } from '../index';
+import { Landing, Login, Guidelines } from '../pages';
 import { Home } from '../Home';
 
 /**
@@ -23,6 +23,8 @@ class Navigation extends React.Component {
         <HomeRoute exact path='/' component={Home} isLoggedIn={isLoggedIn}/>          
         <PublicRoute exact path='/landing' component={Landing} isLoggedIn={isLoggedIn}/>
         <PublicRoute exact path='/login' component={Login} isLoggedIn={isLoggedIn}/>  
+        <PrivateRoute exact path='/guides' component={Guidelines} isLoggedIn={isLoggedIn}/>
+        <PrivateRoute exact path='/collection' component={Guidelines} isLoggedIn={isLoggedIn}/>
         <PrivateRoute component={Home} isLoggedIn={isLoggedIn}/>
       </Switch>
     )
