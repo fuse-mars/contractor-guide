@@ -1,5 +1,7 @@
 # contractor-guide
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/fuse-mars/contractor-guide.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/fuse-mars/contractor-guide.svg?branch=develop)](https://travis-ci.org/fuse-mars/contractor-guide)
 [![codecov](https://codecov.io/gh/fuse-mars/contractor-guide/branch/master/graph/badge.svg)](https://codecov.io/gh/fuse-mars/contractor-guide)
 [![Maintainability](https://api.codeclimate.com/v1/badges/90bc491cb3114afb335e/maintainability)](https://codeclimate.com/github/fuse-mars/contractor-guide/maintainability)
