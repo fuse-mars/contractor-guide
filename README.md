@@ -23,4 +23,3 @@ A list of things to know/todo in order to easily start their contract work in a 
   * semantic-boilerplate for templating
   
 * Firebase on the back-end
-

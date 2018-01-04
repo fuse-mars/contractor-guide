@@ -1,0 +1,15 @@
+body {
+    background-color: #DADADA;
+}
+
+body .login.grid {
+    height: 100vh;
+}
+
+.login .image {
+    margin-top: -100px;
+}
+
+.login .column {
+    max-width: 450px;
+}

@@ -1,0 +1,11 @@
+/*******************************
+         Theme Overrides
+*******************************/
+
+.ui.inverted.icon.menu .item {
+  border-bottom: 1px solid grey;
+}
+
+#searchBarNav:before {
+    display: none;
+}
