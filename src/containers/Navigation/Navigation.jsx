@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Router, Redirect, Switch } from 'react-router';
 import { connect } from 'react-redux'
 
-import { Home, Landing, Login, Logout, Guidelines, NewGuide, Guide } from '../pages';
+import { Home, Landing, Login, Guidelines, NewGuide, Guide } from '../pages';
 
 /**
  * 1. If user logged in, show Home page
@@ -14,23 +14,20 @@ interface PropsIface {
 }
 
  */
-const Navigation = (props) => {
-    console.log('[Navigation] props', props)
-    let { isLoggedIn } = props;
+const Navigation = props => {
+  let { isLoggedIn } = props
     return (
         <Switch>
-          <HomeRoute exact path='/' component={Home} isLoggedIn={isLoggedIn} {...props} />          
+          <HomeRoute exact path='/' component={Home} isLoggedIn={isLoggedIn} />          
           <PublicRoute exact path='/landing' component={Landing} isLoggedIn={isLoggedIn} />
           <PublicRoute exact path='/login' component={Login} isLoggedIn={isLoggedIn} />
-          <HomeRoute exact path='/logout' component={Logout} isLoggedIn={isLoggedIn} {...props} />
-          <PrivateRoute component={Home} isLoggedIn={isLoggedIn} {...props} />
+          <PrivateRoute component={Home} isLoggedIn={isLoggedIn} />
         </Switch>
     )
 
   }
 
 const HomeRoute = ({ component: Component, isLoggedIn, ...rest }) => {
-  console.log('[HomeRoute] isLoggedIn', isLoggedIn)
   return (
   <Route {...rest} render={props => (
     isLoggedIn ? (
@@ -55,7 +52,6 @@ const PrivateRoute = ({ component: Component, isLoggedIn, ...rest }) => (
 )
 
 const PublicRoute = ({ component: Component, isLoggedIn, ...rest }) => {
-  console.log('[PublicRoute] isLoggedIn', isLoggedIn)  
   return (
   <Route {...rest} render={props => (
     !isLoggedIn ? (

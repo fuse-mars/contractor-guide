@@ -16,11 +16,23 @@ export default () => {
 			url: unauthenticationUrl,
 			method: 'DELETE',
 		},
+		beforeActions: {
+			showLoader: {
+				location: ['appState', 'loading', 'UNAUTHENTICATE'],
+				operation: 'setIn',
+				value: true
+			}
+		},	
 		successActions: {
 			resetAuth: {
 				location: ['auth', 'auth'],
 				operation: 'setIn',
 				value: Auth
+			},
+			hideLoader: { // @TODO remove once afterActions works properly
+				location: ['appState', 'loading', 'UNAUTHENTICATE'],
+				operation: 'setIn',
+				value: false
 			},
 		},
 		failureActions: {
@@ -35,6 +47,18 @@ export default () => {
 				location: ['auth', 'auth'],
 				operation: 'setIn',
 				value: Auth
+			},
+			hideLoader: { // @TODO remove once afterActions works properly
+				location: ['appState', 'loading', 'UNAUTHENTICATE'],
+				operation: 'setIn',
+				value: false
+			},
+		},
+		afterActions: {
+			hideLoader: {
+				location: ['appState', 'loading', 'UNAUTHENTICATE'],
+				operation: 'setIn',
+				value: false
 			},
 		},
 	}

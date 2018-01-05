@@ -2,6 +2,12 @@ import * as React from 'react';
 import { Login as LoginComponent, Register as RegisterComponent } from '../../../components'
 import { Redirect } from 'react-router';
 
+import { connect } from 'react-redux'
+
+import { Dimmer, Loader, Segment } from 'semantic-ui-react'
+
+
+
 import { mastermind, ActionTypes } from '../../../redux'
 
 
@@ -41,9 +47,14 @@ class LoginContainer extends React.Component {
         const { from } = this.props.location.state || { from: { pathname: '/' } }
         const { redirectToReferrer, showRegisterComponent } = this.state
         
+        let { appState: { loading: { AUTHENTICATE } } } = this.props;
+
+        console.log('[LoginContainer] props', this.props )
+
         if (redirectToReferrer) {
             return (<Redirect to={from}/>);
         }
+
 
         return (
             showRegisterComponent?
@@ -51,13 +62,25 @@ class LoginContainer extends React.Component {
                 onGoToLogin={e => this.goToLogin(e)}
                 onSubmitRegister={e => this.register(e)}
             />:
-            <LoginComponent 
+            <div>
+                {AUTHENTICATE && <Dimmer active >
+                    <Loader >Loading...</Loader>
+                </Dimmer>}
+                <LoginComponent 
                 onGoToRegister={e => this.goToRegister(e)}                
                 onSubmitLogin={e => this.login(e)}
-            />            
+            /></div>          
         );
 
     }
 }
 
-export default LoginContainer;
+const mapStateToProps = state => {
+    return {
+      appState: state.appState.toJS(),
+      auth: state.auth.toJS(),
+      data: state.data.toJS(),
+    }
+}
+export default connect(mapStateToProps)(LoginContainer)
+// export default LoginContainer;

@@ -16,6 +16,13 @@ export default (credentials) => {
 			method: 'POST',
 			data: credentials,
 		},
+		beforeActions: {
+			showLoader: {
+				location: ['appState', 'loading', 'AUTHENTICATE'],
+				operation: 'setIn',
+				value: true
+			}
+		},		
 		successActions: {
 			addAuthToStore: {
 				location: ['auth', 'auth'],
@@ -27,6 +34,11 @@ export default (credentials) => {
 					return { tokenType, token, isLoggedIn }
 				}
 			},
+			hideLoader: {
+				location: ['appState', 'loading', 'AUTHENTICATE'],
+				operation: 'setIn',
+				value: false
+			}
 		},
 		failureActions: {
 			recordFailure: {
@@ -45,7 +57,19 @@ export default (credentials) => {
 					let tokenType = 'tokenType', token = 'token', isLoggedIn = true
 					return { tokenType, token, isLoggedIn }
 				}
+			},
+			hideLoader: {
+				location: ['appState', 'loading', 'AUTHENTICATE'],
+				operation: 'setIn',
+				value: false
 			}
 		},
+		afterActions: {
+			hideLoader: {
+				location: ['appState', 'loading', 'AUTHENTICATE'],
+				operation: 'setIn',
+				value: false
+			}
+		},	
 	}
 }

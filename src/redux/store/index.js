@@ -47,9 +47,15 @@ export const GuideMap = {
     // guidId: Guide
 }
 
+export const loading = { 
+    APP_LEVEL: false, // used if u want to show loader at app level
+    NEW_GUIDE_LEVEL: false,
+    LOGOUT_LEVEL: false,
+}
+
 // NOTE: This a representation of all data that should be placed inside the store
 export const StateModel = {
-    appState: { isFetching: {}, errors: {/* TODO define error objects */}, modals: {/* TODO define model objects */} },
+    appState: { loading, errors: {/* TODO define error objects */}, modals: {/* TODO define model objects */} },
     auth: { user: User, auth: Auth },
     data: { guides: Map(GuideMap), shared: Map(GuideMap) }
 }

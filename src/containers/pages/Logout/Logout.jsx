@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { Redirect } from 'react-router';
+import { Dimmer, Loader, Segment } from 'semantic-ui-react'
+
+import { connect } from 'react-redux'
 
 import { mastermind, ActionTypes } from '../../../redux'
-
 
 /**
  * interface StateIFace {
@@ -20,12 +22,25 @@ class LogoutContainer extends React.Component {
     }
 
     render() {
+        let { appState: { loading: { UNAUTHENTICATE } } } = this.props;
 
         return (
-            <div>Loggin out ...</div>       
+            <div>
+                {UNAUTHENTICATE && <Dimmer active >
+                    <Loader >Loading...</Loader>
+                </Dimmer>}
+            </div>       
         );
 
     }
 }
 
-export default LogoutContainer;
+const mapStateToProps = state => {
+    return {
+      appState: state.appState.toJS(),
+      auth: state.auth.toJS(),
+      data: state.data.toJS(),
+    }
+}
+export default connect(mapStateToProps)(LogoutContainer)
+// export default LogoutContainer;
