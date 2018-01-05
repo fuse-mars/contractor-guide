@@ -8,8 +8,11 @@ import { Redirect } from 'react-router';
  * }
  */
 class Landing extends React.Component {
-    state = {
-        showLoginPage: false
+    constructor(props) {
+        super(props)
+        this.state = {
+            showLoginPage: false
+        }
     }
     goToLoginPage(ev) {
         this.setState({ showLoginPage: true })
@@ -17,11 +20,8 @@ class Landing extends React.Component {
 
     render() {
 
-        const { showLoginPage } = this.state
         return (
-            showLoginPage?
-            <Redirect to="/login"/>:
-            <LandingComponent goToLoginPage={e => this.goToLoginPage(e)}/>            
+            <LandingComponent />            
         );
 
     }

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Router, Redirect, Switch } from 'react-router';
-import { Home, Landing, Login, Guidelines, NewGuide, Guide } from '../pages';
+import { connect } from 'react-redux'
+
+import { Home, Landing, Login, Logout, Guidelines, NewGuide, Guide } from '../pages';
 
 /**
  * 1. If user logged in, show Home page
@@ -12,24 +14,24 @@ interface PropsIface {
 }
 
  */
-class Navigation extends React.Component {
-
-  render() {
-    let { isLoggedIn } = this.props;
-    
+const Navigation = (props) => {
+    console.log('[Navigation] props', props)
+    let { isLoggedIn } = props;
     return (
         <Switch>
-          <HomeRoute exact path='/' component={Home} isLoggedIn={isLoggedIn}/>          
-          <PublicRoute exact path='/landing' component={Landing} isLoggedIn={isLoggedIn}/>
-          <PublicRoute exact path='/login' component={Login} isLoggedIn={isLoggedIn}/>  
-          <PrivateRoute component={Home} isLoggedIn={isLoggedIn}/>
+          <HomeRoute exact path='/' component={Home} isLoggedIn={isLoggedIn} {...props} />          
+          <PublicRoute exact path='/landing' component={Landing} isLoggedIn={isLoggedIn} />
+          <PublicRoute exact path='/login' component={Login} isLoggedIn={isLoggedIn} />
+          <HomeRoute exact path='/logout' component={Logout} isLoggedIn={isLoggedIn} {...props} />
+          <PrivateRoute component={Home} isLoggedIn={isLoggedIn} {...props} />
         </Switch>
     )
 
   }
-}
 
-const HomeRoute = ({ component: Component, isLoggedIn, ...rest }) => (
+const HomeRoute = ({ component: Component, isLoggedIn, ...rest }) => {
+  console.log('[HomeRoute] isLoggedIn', isLoggedIn)
+  return (
   <Route {...rest} render={props => (
     isLoggedIn ? (
       <Component {...props}/>
@@ -37,7 +39,7 @@ const HomeRoute = ({ component: Component, isLoggedIn, ...rest }) => (
       <Redirect to='/landing'/>
     )
   )}/>
-)
+)}
 
 const PrivateRoute = ({ component: Component, isLoggedIn, ...rest }) => (
   <Route {...rest} render={props => (
@@ -52,7 +54,9 @@ const PrivateRoute = ({ component: Component, isLoggedIn, ...rest }) => (
   )}/>
 )
 
-const PublicRoute = ({ component: Component, isLoggedIn, ...rest }) => (
+const PublicRoute = ({ component: Component, isLoggedIn, ...rest }) => {
+  console.log('[PublicRoute] isLoggedIn', isLoggedIn)  
+  return (
   <Route {...rest} render={props => (
     !isLoggedIn ? (
       <Component {...props}/>
@@ -63,6 +67,15 @@ const PublicRoute = ({ component: Component, isLoggedIn, ...rest }) => (
       }}/>
     )
   )}/>
-)
+)}
 
-export default Navigation;
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.auth.toJS().auth.isLoggedIn,
+    appState: state.appState.toJS(),
+    auth: state.auth.toJS(),
+    data: state.data.toJS(),
+  }
+}
+export default connect(mapStateToProps)(Navigation)
+// export default Navigation

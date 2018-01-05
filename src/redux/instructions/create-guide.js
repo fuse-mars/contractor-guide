@@ -33,7 +33,7 @@ export default (guide) => {
 		},
 		failureActions: {
 			recordFailure: {
-				location: ['appState', 'errors', 'CREATE_NEW_GUIDE'],
+				location: ['appState', 'errors', 'CREATE_GUIDE'],
 				operation: 'setIn',
 				valueFunction: ({
 					error

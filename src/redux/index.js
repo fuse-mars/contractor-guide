@@ -9,8 +9,7 @@ import { createMastermind } from 'redux-mastermind'
 import { StateModel as initialStoreState } from './store'
 import updateSchemaCreators, { ActionTypes } from './instructions'
 
-export { ActionTypes } from './instructions'
-
 export const mastermind = createMastermind({ initialStoreState, updateSchemaCreators })
 
+export { ActionTypes } from './instructions'
 export default mastermind

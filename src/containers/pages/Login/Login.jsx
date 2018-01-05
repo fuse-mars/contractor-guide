@@ -2,6 +2,9 @@ import * as React from 'react';
 import { Login as LoginComponent, Register as RegisterComponent } from '../../../components'
 import { Redirect } from 'react-router';
 
+import { mastermind, ActionTypes } from '../../../redux'
+
+
 /**
  * interface StateIFace {
  *    redirectToReferrer: boolean;
@@ -15,9 +18,11 @@ class LoginContainer extends React.Component {
     }
 
     login (ev) {
+        let { username, password } = ev
         // @TODO add redux-form to collect user credentials     
-        // @TODO create a redux-matermind to make authentication API call        
+        // @TODO create a redux-mastermind to make authentication API call        
         // this.setState({ redirectToReferrer: true })
+        return mastermind.update(ActionTypes.AUTHENTICATE, { username, password })
     }
 
     register (ev) {

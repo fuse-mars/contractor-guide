@@ -1,14 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
+
 import './Landing.css';
 
 /**
  * interface Props {
- *   showLoginPage: (ev) => void
  * }
  */
 class Landing extends React.Component {
     render() {
-        let { goToLoginPage } = this.props
         return (
             <div className="ui inverted vertical masthead center aligned segment">
                 <div className="ui text container">
@@ -19,7 +19,7 @@ class Landing extends React.Component {
                         A list of things to know/do in order to easily start
                         their contract work in a new office environment.
                     </h2>
-                    <button onClick={goToLoginPage} className="ui huge primary button">Sign In</button>
+                    <Link to='/login' className="ui huge primary button">Sign In</Link>
                 </div>
 
             </div>
