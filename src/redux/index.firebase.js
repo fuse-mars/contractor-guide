@@ -1,4 +1,4 @@
-import { compose } from 'redux'
+import { compose, createStore } from 'redux'
 import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase'
 import firebase from 'firebase'
 
@@ -8,11 +8,14 @@ import { StateModel as initialStoreState } from './store'
 import updateSchemaCreators from './instructions'
 
 const firebaseConfig = {
-  apiKey: '<your-api-key>',
-  authDomain: '<your-auth-domain>',
-  databaseURL: '<your-database-url>',
-  storageBucket: '<your-storage-bucket>'
+  apiKey: 'AIzaSyAKKCLl9XJcpy4S2Dx8Hv1fDaj92dZ1WRU',
+  authDomain: 'guide-2e394.firebaseapp.com',
+  databaseURL: 'https://guide-2e394.firebaseio.com',
+  storageBucket: 'guide-2e394.appspot.com'
 }
+// initialize firebase instance
+firebase.initializeApp(firebaseConfig) // <- new to v2.*.*
+
 // react-redux-firebase options
 const config = {
     userProfile: 'auth', // firebase root where user profiles are stored
@@ -20,7 +23,7 @@ const config = {
 }
 
 const createStoreWithFirebase = compose(
-    reactReduxFirebase(firebase, fonfig),
+    reactReduxFirebase(firebase, config),
 )(createStore)
   
 let reducers = { firebase: firebaseReducer }
