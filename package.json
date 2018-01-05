@@ -8,10 +8,13 @@
     "history": "^4.7.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-google-button": "git+https://github.com/fuse-mars/react-google-button.git",
     "react-redux-firebase": "^2.0.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "1.0.17",
+    "recompose": "^0.26.0",
+    "redux-auth-wrapper": "^2.0.2",
     "redux-mastermind": "git+https://github.com/Neil-G/redux-mastermind.git#feature/custom-create-store",
     "semantic-ui-react": "^0.77.1"
   },

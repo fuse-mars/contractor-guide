@@ -7,6 +7,23 @@ import { createMastermind } from 'redux-mastermind'
 import { StateModel as initialStoreState } from './store'
 import updateSchemaCreators from './instructions'
 
+
+
+
+import createHistory from 'history/createHashHistory'
+
+import { routerReducer, routerMiddleware } from 'react-router-redux'
+
+// Create a history of your choosing (we're using a browser history in this case)
+export const history = createHistory()
+// Build the middleware for intercepting and dispatching navigation actions
+const middleware = routerMiddleware(history)
+
+
+
+
+
+
 const firebaseConfig = {
   apiKey: 'AIzaSyAKKCLl9XJcpy4S2Dx8Hv1fDaj92dZ1WRU',
   authDomain: 'guide-2e394.firebaseapp.com',
@@ -25,9 +42,12 @@ const config = {
 const createStoreWithFirebase = compose(
     reactReduxFirebase(firebase, config),
 )(createStore)
+
+
+
   
-let reducers = { firebase: firebaseReducer }
-let middlewares = []
+let reducers = { firebase: firebaseReducer, router: routerReducer }
+let middlewares = [ middleware ]
 let options = {
     reducers,
     middlewares,

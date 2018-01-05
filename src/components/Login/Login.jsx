@@ -4,9 +4,11 @@ import './Login.css';
 import { Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
+import GoogleButton from 'react-google-button'
+
 class Landing extends React.Component {
     render() {
-        let { onSubmitLogin, onGoToRegister } = this.props
+        let { onSubmitLogin, onGoToRegister, onGoogleLogin } = this.props
         return (<div className="login ui middle aligned center aligned grid">
                 <div className="column">
                     <h2 className="ui teal image header">
@@ -36,9 +38,14 @@ class Landing extends React.Component {
 
                     </form>
 
-                    <div className="ui message">
-                        New to us? <a onClick={onGoToRegister} href="#">Register</a>
+                    <div className="ui message" style={{ paddingLeft: '6em' }}>
+                        <GoogleButton onClick={onGoogleLogin} style={{width: 'auto'}} />
                     </div>
+                    
+                    <div className="ui message">
+                        New to us? <span onClick={onGoToRegister}> Register </span>
+                    </div>
+
                 </div>
             </div>);
     }

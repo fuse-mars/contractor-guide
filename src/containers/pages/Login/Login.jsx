@@ -1,3 +1,5 @@
+// source: https://github.com/prescottprue/react-redux-firebase/blob/master/examples/complete/material/src/routes/Login/components/LoginPage/LoginPage.js
+
 import * as React from 'react';
 import { Login as LoginComponent, Register as RegisterComponent } from '../../../components'
 import { Redirect } from 'react-router';
@@ -6,7 +8,11 @@ import { connect } from 'react-redux'
 
 import { Dimmer, Loader, Segment } from 'semantic-ui-react'
 
+import { withFirebase } from 'react-redux-firebase'
+import { withHandlers, pure, compose } from 'recompose'
 
+import { UserIsNotAuthenticatedRedir } from '../../../utils/router'
+import { SIGNUP_PATH } from '../../../utils/constants'
 
 import { mastermind, ActionTypes } from '../../../redux'
 
@@ -47,7 +53,7 @@ class LoginContainer extends React.Component {
         const { from } = this.props.location.state || { from: { pathname: '/' } }
         const { redirectToReferrer, showRegisterComponent } = this.state
         
-        let { appState: { loading: { AUTHENTICATE } } } = this.props;
+        let { googleLogin, appState: { loading: { AUTHENTICATE } } } = this.props;
 
         console.log('[LoginContainer] props', this.props )
 
@@ -69,6 +75,7 @@ class LoginContainer extends React.Component {
                 <LoginComponent 
                 onGoToRegister={e => this.goToRegister(e)}                
                 onSubmitLogin={e => this.login(e)}
+                onGoogleLogin={googleLogin}
             /></div>          
         );
 
@@ -82,5 +89,32 @@ const mapStateToProps = state => {
       data: state.data.toJS(),
     }
 }
-export default connect(mapStateToProps)(LoginContainer)
+// export default connect(mapStateToProps)(LoginContainer)
 // export default LoginContainer;
+
+
+export default compose(
+    connect(mapStateToProps),
+    UserIsNotAuthenticatedRedir, // redirect to projects page if already authenticated
+    // withNotifications, // add props.showError
+    withFirebase, // add props.firebase
+    withHandlers({
+      onSubmitFail: props => (formErrs, dispatch, err) => alert(err.message || 'Error'),
+      googleLogin: ({ firebase, showError }) => event =>
+        firebase
+          .login({ provider: 'google', type: 'popup' })
+          .then(res => {
+            let auth = mastermind.getState().firebase.auth
+            // console.log('[LoginContainer] googleLogin.then', res);
+            console.log('[LoginContainer] mastermind.state.FS', auth);
+            mastermind.update(ActionTypes.CREATE_AUTHENTICATE, auth)
+          })
+        .catch(err => {
+            // @TODO  showError(err.message)
+            console.log('[LoginContainer] googleLogin.catch', err);
+        }),
+      emailLogin: ({ firebase, showError }) => creds =>
+        firebase.login(creds).catch(err => showError(err.message))
+    }),
+    pure
+)(LoginContainer)
