@@ -13,3 +13,10 @@ body .login.grid {
 .login .column {
     max-width: 450px;
 }
+
+.message span.link {
+    color: darkcyan;
+}
+.message span.link:hover {
+    cursor: pointer;
+}

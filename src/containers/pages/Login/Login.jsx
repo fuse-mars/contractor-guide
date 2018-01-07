@@ -4,12 +4,12 @@ import * as React from 'react';
 import { Login as LoginComponent, Register as RegisterComponent } from '../../../components'
 import { Redirect } from 'react-router';
 
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import { Dimmer, Loader, Segment } from 'semantic-ui-react'
 
 import { withFirebase } from 'react-redux-firebase'
-import { withHandlers, pure, compose } from 'recompose'
 
 import { UserIsNotAuthenticatedRedir } from '../../../utils/router'
 import { SIGNUP_PATH } from '../../../utils/constants'
@@ -29,16 +29,64 @@ class LoginContainer extends React.Component {
         showRegisterComponent: false,
     }
 
-    login (ev) {
-        let { username, password } = ev
-        // @TODO add redux-form to collect user credentials     
-        // @TODO create a redux-mastermind to make authentication API call        
-        // this.setState({ redirectToReferrer: true })
-        return mastermind.update(ActionTypes.AUTHENTICATE, { username, password })
+    googleLogin(event) {
+        let { firebase } = this.props;
+    return firebase
+      .login({ provider: 'google', type: 'popup' })
+      .then(res => {
+        let auth = mastermind.getState().firebase.auth
+        // console.log('[LoginContainer] googleLogin.then', res);
+        console.log('[LoginContainer] mastermind.state.FS', auth);
+        mastermind.update(ActionTypes.CREATE_AUTHENTICATE, auth)
+      })
+    .catch(err => {
+        // @TODO  showError(err.message)
+        console.log('[LoginContainer] googleLogin.catch', err);
+    })
+}
+  emailLogin(creds) {
+      let { firebase, showError } = this.props;
+      
+    firebase.login(creds).catch(err => showError(err.message))
+}
+
+
+    login (values) {
+        let { firebase } = this.props;        
+        let { email, password } = values
+        // let { username, password } = values
+        // @TODO return mastermind.update(ActionTypes.AUTHENTICATE, { username, password })
+
+        return firebase
+        .login({ email, password })
+        .then(res => {
+          let auth = mastermind.getState().firebase.auth
+          mastermind.update(ActionTypes.CREATE_AUTHENTICATE, auth)
+        })
+      .catch(err => {
+          // @TODO  showError(err.message)
+          console.log('[LoginContainer] googleLogin.catch', err);
+      })
     }
 
-    register (ev) {
-        // this.setState({ redirectToReferrer: true })
+    register (values) {
+        let { firebase } = this.props;        
+        let { email, password } = values
+        let username = email.split('@')[0]
+
+        // let { username, password } = values
+        // @TODO return mastermind.update(ActionTypes.AUTHENTICATE, { username, password })
+
+        return firebase
+        .createUser({ email, password }, { username, email })
+        .then(res => {
+          let auth = mastermind.getState().firebase.auth
+          mastermind.update(ActionTypes.CREATE_AUTHENTICATE, auth)
+        })
+      .catch(err => {
+          // @TODO  showError(err.message)
+          console.log('[LoginContainer] googleLogin.catch', err);
+      })
     }
     goToLogin (ev) {
         this.setState({ showRegisterComponent: false })
@@ -53,7 +101,7 @@ class LoginContainer extends React.Component {
         const { from } = this.props.location.state || { from: { pathname: '/' } }
         const { redirectToReferrer, showRegisterComponent } = this.state
         
-        let { googleLogin, appState: { loading: { AUTHENTICATE } } } = this.props;
+        let { appState: { loading: { AUTHENTICATE } } } = this.props;
 
         console.log('[LoginContainer] props', this.props )
 
@@ -66,7 +114,7 @@ class LoginContainer extends React.Component {
             showRegisterComponent?
             <RegisterComponent
                 onGoToLogin={e => this.goToLogin(e)}
-                onSubmitRegister={e => this.register(e)}
+                onSubmit={values => this.register(values)}
             />:
             <div>
                 {AUTHENTICATE && <Dimmer active >
@@ -74,8 +122,8 @@ class LoginContainer extends React.Component {
                 </Dimmer>}
                 <LoginComponent 
                 onGoToRegister={e => this.goToRegister(e)}                
-                onSubmitLogin={e => this.login(e)}
-                onGoogleLogin={googleLogin}
+                onSubmit={values => this.login(values)}
+                onGoogleLogin={e => this.googleLogin(e)}
             /></div>          
         );
 
@@ -89,32 +137,12 @@ const mapStateToProps = state => {
       data: state.data.toJS(),
     }
 }
-// export default connect(mapStateToProps)(LoginContainer)
-// export default LoginContainer;
+
 
 
 export default compose(
     connect(mapStateToProps),
-    UserIsNotAuthenticatedRedir, // redirect to projects page if already authenticated
-    // withNotifications, // add props.showError
     withFirebase, // add props.firebase
-    withHandlers({
-      onSubmitFail: props => (formErrs, dispatch, err) => alert(err.message || 'Error'),
-      googleLogin: ({ firebase, showError }) => event =>
-        firebase
-          .login({ provider: 'google', type: 'popup' })
-          .then(res => {
-            let auth = mastermind.getState().firebase.auth
-            // console.log('[LoginContainer] googleLogin.then', res);
-            console.log('[LoginContainer] mastermind.state.FS', auth);
-            mastermind.update(ActionTypes.CREATE_AUTHENTICATE, auth)
-          })
-        .catch(err => {
-            // @TODO  showError(err.message)
-            console.log('[LoginContainer] googleLogin.catch', err);
-        }),
-      emailLogin: ({ firebase, showError }) => creds =>
-        firebase.login(creds).catch(err => showError(err.message))
-    }),
-    pure
 )(LoginContainer)
+// export default connect(mapStateToProps)(LoginContainer)
+// export default LoginContainer;

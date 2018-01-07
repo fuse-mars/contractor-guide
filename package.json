@@ -5,6 +5,7 @@
   "homepage": "https://fuse-mars.github.io/contractor-guide/",
   "dependencies": {
     "faker": "^4.1.0",
+    "firebase": "^4.8.1",
     "history": "^4.7.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -15,6 +16,7 @@
     "react-scripts": "1.0.17",
     "recompose": "^0.26.0",
     "redux-auth-wrapper": "^2.0.2",
+    "redux-form": "^7.2.0",
     "redux-mastermind": "git+https://github.com/Neil-G/redux-mastermind.git#feature/custom-create-store",
     "semantic-ui-react": "^0.77.1"
   },
