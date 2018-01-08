@@ -31,11 +31,12 @@ const Guidelines = props => (
             <Route exact path='/guides/:guideId' component={Guide} />
             <Route exact path='/guides' component={Guides}/>
             <Route exact path='/drafts' render={(props) => <GuidelinesComponent domain='drafts' />} />
-            <Route render={(props) => (<Social />)} />
+            <Route component={Guides}/>
         </Switch>
     </Grid>
 )
 
+// <Route render={(props) => (<Social />)} />
 
 const mapStateToProps = ({ firebase: { auth }, appState, data }) => {
     return {

@@ -25,8 +25,10 @@ export default props => (
       <Label>{props.draftsCount}</Label>
       Drafts
     </Menu.Item>
-    <Menu.Item>
-      <Input icon='search' placeholder='Search guides...' />
-    </Menu.Item>
   </Menu>
 );
+
+
+// <Menu.Item>
+// <Input icon='search' placeholder='Search guides...' />
+// </Menu.Item>

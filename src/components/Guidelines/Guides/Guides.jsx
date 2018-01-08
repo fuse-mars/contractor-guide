@@ -10,7 +10,8 @@ class Guides extends React.Component {
     render() {
         let { guides } = this.props
 
-        const events = Object.keys(guides||{}).map(key => {
+        let keys = Object.keys(guides||{})
+        const events =         keys.map(key => {
             let guide = guides[key]
 
             return {
@@ -23,7 +24,9 @@ class Guides extends React.Component {
             }
         })
         return (
-            <Feed className="largeFeed" events={events} />
+            keys.length? 
+            <Feed className="largeFeed" events={events} />:
+            <div className="largeFeed">Oops you do not have any guides, please <Link to="/guides/new">create one!</Link></div>
         )
     }
 }

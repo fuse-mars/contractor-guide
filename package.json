@@ -40,7 +40,9 @@
     "start:react:gulp": "concurrently --kill-others 'npm run react:start' 'npm run gulp:start'",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",
