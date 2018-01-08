@@ -2,20 +2,27 @@ import React, { Component } from 'react'
 import { Input, Label, Menu } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom';
 
-export default () => (
+/**
+ * interface PropsIFace {
+ *  collectionCount,
+ *  guidesCount,
+ *  draftsCount,
+ * }
+ */
+export default props => (
   <Menu size='small' vertical fluid="true">
       <Menu.Item as={NavLink} to='/collection' name='collection'>
-        <Label color='teal'>12</Label>
+        <Label color='teal'>{props.collectionCount}</Label>
         Collection
       </Menu.Item>
 
       <Menu.Item as={NavLink} to='/guides' name='guides'>
-        <Label>0</Label>
+        <Label>{props.guidesCount}</Label>
         Guides
       </Menu.Item>
 
     <Menu.Item as={NavLink} to='/drafts' name='drafts'>
-      <Label>0</Label>
+      <Label>{props.draftsCount}</Label>
       Drafts
     </Menu.Item>
     <Menu.Item>

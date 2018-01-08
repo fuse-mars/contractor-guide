@@ -37,6 +37,6 @@ const events = [{
   extraText: <ol><li>Ask Joyce to put in request</li><li>...</li></ol>
 }]
 
-const MyFeed = () => <Feed id="largeFeed" events={events} />
+const MyFeed = () => <Feed className="largeFeed" events={events} />
 
 export default MyFeed

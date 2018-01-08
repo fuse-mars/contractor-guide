@@ -7,16 +7,13 @@ import { FeedSummary, MiniMenu, MyFeed } from '.'
 
 
 const Social = () => (
-
-    <React.Fragment>
-      <Grid.Column width={9}>
-        <MyFeed/>
-      </Grid.Column>
-      <Grid.Column width={4} >
-        <FeedSummary/>
-      </Grid.Column>
-    </React.Fragment>
-
+  <React.Fragment>
+    <Grid.Column width={9}>
+      <MyFeed />
+    </Grid.Column>
+    <Grid.Column width={4} >
+      <FeedSummary />
+    </Grid.Column>
+  </React.Fragment>
 )
-
 export default Social
