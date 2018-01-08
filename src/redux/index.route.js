@@ -1,3 +1,5 @@
+// source: 
+
 import { createMastermind } from 'redux-mastermind'
 
 // import { STATE_MODEL as initialState } from './store'

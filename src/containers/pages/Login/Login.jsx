@@ -1,12 +1,18 @@
+// source: https://github.com/prescottprue/react-redux-firebase/blob/master/examples/complete/material/src/routes/Login/components/LoginPage/LoginPage.js
+
 import * as React from 'react';
 import { Login as LoginComponent, Register as RegisterComponent } from '../../../components'
 import { Redirect } from 'react-router';
 
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import { Dimmer, Loader, Segment } from 'semantic-ui-react'
 
+import { withFirebase } from 'react-redux-firebase'
 
+import { UserIsNotAuthenticatedRedir } from '../../../utils/router'
+import { SIGNUP_PATH } from '../../../utils/constants'
 
 import { mastermind, ActionTypes } from '../../../redux'
 
@@ -23,16 +29,64 @@ class LoginContainer extends React.Component {
         showRegisterComponent: false,
     }
 
-    login (ev) {
-        let { username, password } = ev
-        // @TODO add redux-form to collect user credentials     
-        // @TODO create a redux-mastermind to make authentication API call        
-        // this.setState({ redirectToReferrer: true })
-        return mastermind.update(ActionTypes.AUTHENTICATE, { username, password })
+    googleLogin(event) {
+        let { firebase } = this.props;
+    return firebase
+      .login({ provider: 'google', type: 'popup' })
+      .then(res => {
+        let auth = mastermind.getState().firebase.auth
+        // console.log('[LoginContainer] googleLogin.then', res);
+        console.log('[LoginContainer] mastermind.state.FS', auth);
+        mastermind.update(ActionTypes.CREATE_AUTHENTICATE, auth)
+      })
+    .catch(err => {
+        // @TODO  showError(err.message)
+        console.log('[LoginContainer] googleLogin.catch', err);
+    })
+}
+  emailLogin(creds) {
+      let { firebase, showError } = this.props;
+      
+    firebase.login(creds).catch(err => showError(err.message))
+}
+
+
+    login (values) {
+        let { firebase } = this.props;        
+        let { email, password } = values
+        // let { username, password } = values
+        // @TODO return mastermind.update(ActionTypes.AUTHENTICATE, { username, password })
+
+        return firebase
+        .login({ email, password })
+        .then(res => {
+          let auth = mastermind.getState().firebase.auth
+          mastermind.update(ActionTypes.CREATE_AUTHENTICATE, auth)
+        })
+      .catch(err => {
+          // @TODO  showError(err.message)
+          console.log('[LoginContainer] googleLogin.catch', err);
+      })
     }
 
-    register (ev) {
-        // this.setState({ redirectToReferrer: true })
+    register (values) {
+        let { firebase } = this.props;        
+        let { email, password } = values
+        let username = email.split('@')[0]
+
+        // let { username, password } = values
+        // @TODO return mastermind.update(ActionTypes.AUTHENTICATE, { username, password })
+
+        return firebase
+        .createUser({ email, password }, { username, email })
+        .then(res => {
+          let auth = mastermind.getState().firebase.auth
+          mastermind.update(ActionTypes.CREATE_AUTHENTICATE, auth)
+        })
+      .catch(err => {
+          // @TODO  showError(err.message)
+          console.log('[LoginContainer] googleLogin.catch', err);
+      })
     }
     goToLogin (ev) {
         this.setState({ showRegisterComponent: false })
@@ -60,7 +114,7 @@ class LoginContainer extends React.Component {
             showRegisterComponent?
             <RegisterComponent
                 onGoToLogin={e => this.goToLogin(e)}
-                onSubmitRegister={e => this.register(e)}
+                onSubmit={values => this.register(values)}
             />:
             <div>
                 {AUTHENTICATE && <Dimmer active >
@@ -68,7 +122,8 @@ class LoginContainer extends React.Component {
                 </Dimmer>}
                 <LoginComponent 
                 onGoToRegister={e => this.goToRegister(e)}                
-                onSubmitLogin={e => this.login(e)}
+                onSubmit={values => this.login(values)}
+                onGoogleLogin={e => this.googleLogin(e)}
             /></div>          
         );
 
@@ -82,5 +137,12 @@ const mapStateToProps = state => {
       data: state.data.toJS(),
     }
 }
-export default connect(mapStateToProps)(LoginContainer)
+
+
+
+export default compose(
+    connect(mapStateToProps),
+    withFirebase, // add props.firebase
+)(LoginContainer)
+// export default connect(mapStateToProps)(LoginContainer)
 // export default LoginContainer;
