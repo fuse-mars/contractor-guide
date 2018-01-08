@@ -1,5 +1,5 @@
 import React from 'react';
-import { NewGuide as NewGuideComponent } from '../../../components'
+import { NewGuide as NewGuideComponent } from '../../../../components'
 import { Redirect } from 'react-router';
 
 /**

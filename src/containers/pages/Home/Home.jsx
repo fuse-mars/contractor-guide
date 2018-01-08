@@ -12,7 +12,7 @@ const leftItems = [
   { as: 'a', content: 'New Guide', key: 'form', icon: 'write', url: '/guides/new' }
 ];
 const rightItems = [
-  { as: 'a', content: 'Logout', key: 'logout', url: 'logout' },
+  { as: 'a', content: 'Logout', key: 'logout', url: '/logout' },
 ];
 
 const Home = () => (

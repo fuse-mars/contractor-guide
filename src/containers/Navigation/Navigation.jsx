@@ -15,8 +15,11 @@ interface PropsIface {
 
  */
 const Navigation = props => {
-  let { isLoggedIn } = props
+  let { isLoggingIn, isLoggedIn } = props
+  
     return (
+        isLoggingIn? 
+        <div>Loading...</div>:
         <Switch>
           <HomeRoute exact path='/' component={Home} isLoggedIn={isLoggedIn} />          
           <PublicRoute exact path='/landing' component={Landing} isLoggedIn={isLoggedIn} />
@@ -65,13 +68,27 @@ const PublicRoute = ({ component: Component, isLoggedIn, ...rest }) => {
   )}/>
 )}
 
-const mapStateToProps = state => {
-  return {
-    isLoggedIn: state.auth.toJS().auth.isLoggedIn,
-    appState: state.appState.toJS(),
-    auth: state.auth.toJS(),
-    data: state.data.toJS(),
+({ firebase: { auth, profile } }) => ({
+  auth,
+  profile
+})
+
+const mapStateToProps = ({ firebase: { auth, profile }, appState, data }) => {
+  return { // @TODO redesign this part because it does not conform to our state model
+    isLoggedIn: !!auth.stsTokenManager,
+    isLoggingIn: !auth.isLoaded,
+    // isLoggedIn: state.auth.toJS().auth.isLoggedIn,
+    appState: appState.toJS(),
+    auth,
+    // auth: auth.toJS(),
+    data: data.toJS(),
   }
 }
+
+// export default compose(
+//   withFirebase, // add props.firebase
+//   connect(mapStateToProps),
+// )(Navigation)
+
 export default connect(mapStateToProps)(Navigation)
 // export default Navigation
