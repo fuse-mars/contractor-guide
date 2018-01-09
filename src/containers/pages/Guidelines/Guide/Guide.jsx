@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect } from 'react-router'
 import { Grid } from 'semantic-ui-react'
 
-
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reset } from 'redux-form'
@@ -11,7 +10,6 @@ import { firebaseConnect, getVal, withFirebase } from 'react-redux-firebase'
 
 import { mastermind } from '../../../../redux'
 import { Guide as GuideComponent } from '../../../../components'
-
 
 const ReduxFromNames = {
     NEW_GUIDE_STEP: 'NewGuideStepForm'

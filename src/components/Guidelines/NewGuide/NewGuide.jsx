@@ -21,14 +21,11 @@ function semanticFormField ({ input, type, label, placeholder, meta: { touched, 
     );
 }
 
-
-
 const NewGuide = props => {
     const { onGoToRegister, onGoogleLogin, handleSubmit, pristine, reset, submitting } = props
 
     return (
         <Form onSubmit={handleSubmit} success>
-        
             <Field name="description" component={semanticFormField} as={Form.Field} control={TextArea} label='Guide' placeholder="How to get something done..." />
 
             <Message info content="You will be able to add steps after submission" />

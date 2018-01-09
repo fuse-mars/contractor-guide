@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { Form, Input } from 'semantic-ui-react';
+import { Form, Input, Message } from 'semantic-ui-react';
 
 import './Login.css';
 
@@ -27,8 +27,8 @@ function semanticFormField ({ input, type, label, placeholder, meta: { touched, 
 
 
 const Login = props => {
-    const { onGoToRegister, onGoogleLogin, handleSubmit, pristine, reset, submitting } = props
-
+    const { error: errorMessage, onGoToRegister, onGoogleLogin, handleSubmit, pristine, submitting } = props
+    console.log('[Login] props', props)
     return (<div className="login ui middle aligned center aligned grid">
             <div className="column">
                 <h2 className="ui teal image header">
@@ -46,9 +46,12 @@ const Login = props => {
                         <Field name="password" component={semanticFormField} as={Form.Input} type="text" icon="lock" placeholder="Password" />
                         </div>
                         <button type="submit"  disabled={pristine || submitting} className="ui fluid large teal submit button">Login</button>
+                        <Message
+                            error
+                            header={errorMessage}
+                            style={{display: errorMessage? 'block': 'none'}}
+                        />                        
                     </div>
-
-                    <div className="ui error message"></div>
 
                 </Form>
 

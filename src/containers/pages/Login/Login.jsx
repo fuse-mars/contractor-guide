@@ -6,6 +6,7 @@ import { Redirect } from 'react-router';
 
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { SubmissionError } from 'redux-form'
 
 import { Dimmer, Loader, Segment } from 'semantic-ui-react'
 
@@ -66,6 +67,7 @@ class LoginContainer extends React.Component {
       .catch(err => {
           // @TODO  showError(err.message)
           console.log('[LoginContainer] googleLogin.catch', err);
+          throw new SubmissionError({ ...err, _error: err.message || 'Login failed!' })
       })
     }
 
@@ -86,6 +88,7 @@ class LoginContainer extends React.Component {
       .catch(err => {
           // @TODO  showError(err.message)
           console.log('[LoginContainer] googleLogin.catch', err);
+          throw new SubmissionError({ ...err, _error: err.message || 'Register failed!' })          
       })
     }
     goToLogin (ev) {
@@ -108,7 +111,6 @@ class LoginContainer extends React.Component {
         if (redirectToReferrer) {
             return (<Redirect to={from}/>);
         }
-
 
         return (
             showRegisterComponent?

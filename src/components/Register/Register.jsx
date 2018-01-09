@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Field, reduxForm } from 'redux-form';
-import { Form, Input, Image } from 'semantic-ui-react';
+import { Form, Input, Image, Message } from 'semantic-ui-react';
 
 import './Register.css';
 
@@ -21,8 +21,7 @@ function semanticFormField ({ input, type, label, placeholder, meta: { touched, 
 const Register = props => {
         // let { onSubmitRegister, onGoToLogin } = props
 
-        const { onGoToLogin, handleSubmit, pristine, reset, submitting } = props
-
+        const { error: errorMessage, onGoToLogin, handleSubmit, pristine, submitting } = props
 
         return (<div className="login ui middle aligned center aligned grid">
                 <div className="column">
@@ -56,9 +55,13 @@ const Register = props => {
 
                             </div>
                             <button type="submit" disabled={pristine || submitting} className="ui fluid large teal submit button">Register</button>
-                        </div>
+                            <Message
+                                error
+                                header={errorMessage}
+                                style={{display: errorMessage? 'block': 'none'}}
+                            />     
 
-                        <div className="ui error message"></div>
+                        </div>
 
                     </Form>
 
