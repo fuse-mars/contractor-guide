@@ -7,18 +7,16 @@ import { Home, Landing, Login, Guidelines, NewGuide, Guide } from '../pages';
 /**
  * 1. If user logged in, show Home page
  * 2. If showLoginPage is true, show Login page
- * 3. If user is not logged in, show Landing page 
-
-interface PropsIface {
-  isLoggedIn?: boolean;
-}
-
+ * 3. If user is not logged in, show Landing page
+  interface PropsIface {
+    isLoggedIn?: boolean;
+  }
  */
 const Navigation = props => {
   let { isLoggingIn, isLoggedIn } = props
-  
+
     return (
-        isLoggingIn? 
+        isLoggingIn?
         <div>Loading...</div>:
         <Switch>
           <HomeRoute exact path='/' component={Home} isLoggedIn={isLoggedIn} />          
@@ -29,7 +27,6 @@ const Navigation = props => {
     )
 
   }
-
 const HomeRoute = ({ component: Component, isLoggedIn, ...rest }) => {
   return (
   <Route {...rest} render={props => (
@@ -74,7 +71,8 @@ const PublicRoute = ({ component: Component, isLoggedIn, ...rest }) => {
 })
 
 const mapStateToProps = ({ firebase: { auth, profile }, appState, data }) => {
-  return { // @TODO redesign this part because it does not conform to our state model
+  return {
+    // @TODO redesign this part because it does not conform to our state model
     isLoggedIn: !!auth.stsTokenManager,
     isLoggingIn: !auth.isLoaded,
     // isLoggedIn: state.auth.toJS().auth.isLoggedIn,

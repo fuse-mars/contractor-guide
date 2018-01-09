@@ -11,24 +11,19 @@ import { NavLink } from 'react-router-dom';
  */
 export default props => (
   <Menu size='small' vertical fluid="true">
-      <Menu.Item as={NavLink} to='/collection' name='collection'>
+      <Menu.Item as={NavLink} to='/public' name='public'>
+        <Label>{props.sharedCount}</Label>
+        Public
+      </Menu.Item>
+
+      <Menu.Item as={NavLink} to='/favorites' name='favorites'>
         <Label color='teal'>{props.collectionCount}</Label>
-        Collection
+        Favorites
       </Menu.Item>
 
       <Menu.Item as={NavLink} to='/guides' name='guides'>
         <Label>{props.guidesCount}</Label>
         Guides
       </Menu.Item>
-
-    <Menu.Item as={NavLink} to='/drafts' name='drafts'>
-      <Label>{props.draftsCount}</Label>
-      Drafts
-    </Menu.Item>
   </Menu>
 );
-
-
-// <Menu.Item>
-// <Input icon='search' placeholder='Search guides...' />
-// </Menu.Item>

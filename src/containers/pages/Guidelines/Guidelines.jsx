@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { firebaseConnect, getVal, withFirebase } from 'react-redux-firebase'
 
 import { Guidelines as GuidelinesComponent, MiniMenu, Social } from '../../../components'
-import { Guide, Guides } from '.'
+import { Guide, Guides, Shared } from '.'
 
 import { Grid } from 'semantic-ui-react'
   
@@ -27,11 +27,12 @@ const Guidelines = props => (
         </Grid.Column>
         <Switch>
             {/* NOTE: any component being rendered must be wrapped inside "Grid.Column" */}
+            <Route exact path='/public' component={Shared} />
             <Route exact path='/collection' render={(props) => <GuidelinesComponent domain='collection' />} />
             <Route exact path='/guides/:guideId' component={Guide} />
             <Route exact path='/guides' component={Guides}/>
             <Route exact path='/drafts' render={(props) => <GuidelinesComponent domain='drafts' />} />
-            <Route component={Guides}/>
+            <Route component={Shared}/>
         </Switch>
     </Grid>
 )
@@ -47,6 +48,7 @@ const mapStateToProps = ({ firebase: { auth }, appState, data }) => {
             collectionCount: 0,
             guidesCount: 0,
             draftsCount: 0,
+            sharedCount: 0,
         },
     }
 }
@@ -66,6 +68,7 @@ export default compose(
         collectionCount,
         guidesCount,
         draftsCount,
+        sharedCount,
     }, auth, params }) => {
 
         let data
@@ -80,6 +83,7 @@ export default compose(
             collectionCount,
             guidesCount,
             draftsCount,
+            sharedCount,
         }
     })
 )(Guidelines)

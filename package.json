@@ -2,7 +2,6 @@
   "name": "contractor-guide",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://fuse-mars.github.io/contractor-guide/",
   "dependencies": {
     "better-console": "^1.0.1",
     "faker": "^4.1.0",
