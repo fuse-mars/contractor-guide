@@ -75,11 +75,10 @@ const mapStateToProps = ({ firebase: { auth }, appState, data }, ownProps) => {
 export default compose(
     connect(mapStateToProps),
     withFirebase, // add props.firebase
-    firebaseConnect(({ auth, params }) => [{ path: `${auth.uid}/guides/${params.guideId}` }]),
-    connect(({ firebase }, { auth, params: { guideId } }) => {
+    firebaseConnect(({ auth, params }) => [{ path: `${params.authorId}/guides/${params.guideId}` }]),
+    connect(({ firebase }, { auth, params: { authorId, guideId } }) => {
         
-        let data
-        if(auth.uid) data = firebase.data[auth.uid]
+        let data = firebase.data[authorId]
         
         let guides
         if(data) guides = data['guides']

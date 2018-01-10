@@ -13,10 +13,13 @@ import { Guides as GuidesComponent } from '../../../../components'
  * }
  */
 class Favorites extends React.Component {
-    state = {
-        showLoginPage: false
-    }
 
+    reportGuide(guideId) { // report as non appropriate
+        debugger
+    }
+    removeGuide(guideId) { // remove from my favorites
+        debugger
+    }
     render() {
         let { guides } = this.props
         console.log('[Guides] guides', guides)
@@ -24,7 +27,10 @@ class Favorites extends React.Component {
         return (
             <React.Fragment>
                 <Grid.Column width={13}>
-                    <GuidesComponent guides={guides} />
+                    <GuidesComponent guides={guides}
+                        reportGuide={guideId => this.reportGuide(guideId)}
+                        removeGuide={guideId => this.removeGuide(guideId)}
+                    />
                 </Grid.Column>
             </React.Fragment>
         );

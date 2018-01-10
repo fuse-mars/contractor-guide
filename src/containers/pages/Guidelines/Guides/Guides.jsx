@@ -16,10 +16,10 @@ class Guides extends React.Component {
     
     publishGuide(guideId) {
         let { auth, firebase, guides, profile } = this.props
-        let { displayName: name } = profile
+        let { displayName: name, avatarUrl :picture } = profile
 
         let authorId = auth.uid
-        let author = { name }
+        let author = { name, picture }
 
         let { description, createdAt, updatedAt } = { ...guides[guideId] } // clone
         let guide = { description, createdAt, updatedAt }
@@ -37,7 +37,7 @@ class Guides extends React.Component {
             debugger
         })
     }
-    unPublishGuide(guideId) {
+    unPublishGuide(guideId) { // @TODO duplicated "../Favorites/Favorites"
         let { auth, firebase } = this.props
         
         firebase.update(`${auth.uid}/guides/${guideId}`, { public: false })
@@ -95,6 +95,7 @@ export default compose(
     connect(({ firebase }, { auth, profile }) => {
         
         let isAuthor = true
+        let authorId = auth.uid
 
         let data
         if(auth.uid) data = firebase.data[auth.uid]
@@ -108,7 +109,7 @@ export default compose(
             let name = profile.displayName
             let picture = profile.avatarUrl
             let author = { ...profile, name, picture }
-            return guides[key] = { ...guide, author, isAuthor }
+            return guides[key] = { ...guide, author, authorId, isAuthor }
         })
 
         console.log('[Guides => connect] profile', profile)

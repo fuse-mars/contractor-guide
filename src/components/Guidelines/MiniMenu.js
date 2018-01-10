@@ -12,12 +12,12 @@ import { NavLink } from 'react-router-dom';
 export default props => (
   <Menu size='small' vertical fluid="true">
       <Menu.Item as={NavLink} to='/public' name='public'>
-        <Label>{props.sharedCount}</Label>
+        <Label>{props.publicCount}</Label>
         Public
       </Menu.Item>
 
       <Menu.Item as={NavLink} to='/favorites' name='favorites'>
-        <Label color='teal'>{props.collectionCount}</Label>
+        <Label color='teal'>{props.favoritesCount}</Label>
         Favorites
       </Menu.Item>
 

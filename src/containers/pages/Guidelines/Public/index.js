@@ -1,1 +1,1 @@
-export { default as Shared } from './Shared';
+export { default as Public } from './Public';

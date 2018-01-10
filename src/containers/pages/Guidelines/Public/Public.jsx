@@ -14,8 +14,22 @@ import { Guides as GuidesComponent } from '../../../../components'
  * }
  */
 class Public extends React.Component {
-    state = {
-        showLoginPage: false
+    reportGuide(guideId) { // report as non appropriate
+        debugger
+    }
+    saveGuide(guideId) { // save to my favorites
+        debugger
+    }
+
+    unPublishGuide(guideId) { // @TODO duplicated "../Guides/Guides"
+        let { auth, firebase } = this.props
+        
+        firebase.update(`${auth.uid}/guides/${guideId}`, { public: false })
+        .then(() => firebase.remove(`public/${guideId}`))
+        .catch(e => {
+            debugger            
+        })
+
     }
 
     render() {
@@ -25,7 +39,11 @@ class Public extends React.Component {
         return (
             <React.Fragment>
                 <Grid.Column width={13}>
-                    <GuidesComponent guides={guides} />
+                    <GuidesComponent guides={guides}
+                        reportGuide={guideId => this.reportGuide(guideId)}
+                        saveGuide={guideId => this.saveGuide(guideId)}
+                        unPublishGuide={guideId => this.unPublishGuide(guideId)}
+                    />
                 </Grid.Column>
             </React.Fragment>
         );
@@ -52,6 +70,7 @@ export default compose(
     connect(({ firebase }, { auth }) => {
 
         let guides = firebase.data['public']
+        let isPublic = true
 
         Object.keys(guides||{}).forEach(key => { // @TODO refactor: use Immutablejs
             let guide = guides[key]
@@ -59,7 +78,7 @@ export default compose(
             let { authorId } = guide
             let isAuthor = auth.uid === authorId
             
-            return guides[key] = { ...guide, isAuthor }
+            return guides[key] = { ...guide, isAuthor, public: isPublic }
         })
 
         console.log('[Guides => connect] guides', guides)

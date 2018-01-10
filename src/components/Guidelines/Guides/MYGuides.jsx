@@ -7,7 +7,7 @@ import { Button, Card, Image, Icon, Feed, Form, Item, Message, TextArea, Comment
 import './Guides.css';
 // meta:  { content: "0 Likes", like: { icon: "like" } },
 // summary: guide.description,
-const MYGuides = ({ guide = {}, guideId, unPublishGuide, deleteGuide, publishGuide }) => (
+const MYGuides = ({ uid, guide = {}, guideId, unPublishGuide, deleteGuide, publishGuide }) => (
                 <Card fluid>
                 <Card.Content>
                     <Image floated='right' size='mini' src={(guide.author || {}).picture} />
@@ -26,13 +26,17 @@ const MYGuides = ({ guide = {}, guideId, unPublishGuide, deleteGuide, publishGui
                     <div className="row">
                         <div className='column'>
                             <a>
-                                <Icon name='bookmark' /> 22 Saves
+                                <Icon name='like' /> 22 Favored
                             </a>
                         </div>
             
                         <div className='column'>
 
-                            { guide.public? <PublishedGuideActions guideId={guideId} unPublishGuide={unPublishGuide} /> : <UnPublishedGuideActions guideId={guideId} deleteGuide={deleteGuide} publishGuide={publishGuide}/> }
+                            {
+                                guide.public?
+                                <PublishedGuideActions uid={uid} guideId={guideId} unPublishGuide={unPublishGuide} /> :
+                                <UnPublishedGuideActions uid={uid} guideId={guideId} deleteGuide={deleteGuide} publishGuide={publishGuide}/>
+                            }
 
                         </div>
                     </div>
@@ -42,18 +46,18 @@ const MYGuides = ({ guide = {}, guideId, unPublishGuide, deleteGuide, publishGui
             )
 
 
-export const PublishedGuideActions = ({ guideId, unPublishGuide }) => (
+export const PublishedGuideActions = ({ uid, guideId, unPublishGuide }) => (
     <div className='ui two mini buttons'>
         <Button onClick={unPublishGuide} basic color='orange'>Unpublish</Button>
-        <Button as={Link} to={'/guides/'+guideId} basic color='teal' icon labelPosition='right'>View<Icon name='right arrow' /></Button>                                
+        <Button as={Link} to={'/guides/'+uid+'/'+guideId} basic color='teal' icon labelPosition='right'>View<Icon name='right arrow' /></Button>                                
     </div>
 )
 
-export const UnPublishedGuideActions = ({ guideId, deleteGuide, publishGuide }) => (
+export const UnPublishedGuideActions = ({ uid, guideId, deleteGuide, publishGuide }) => (
     <div className='ui three mini buttons'>
         <Button onClick={deleteGuide} basic color='red'>Delete</Button>
         <Button onClick={publishGuide} basic color='green'>Publish</Button>
-        <Button as={Link} to={'/guides/'+guideId} basic color='teal' icon labelPosition='right'>View<Icon name='right arrow' /></Button>                                
+        <Button as={Link} to={'/guides/'+uid+'/'+guideId} basic color='teal' icon labelPosition='right'>View<Icon name='right arrow' /></Button>                                
     </div>
 )
 

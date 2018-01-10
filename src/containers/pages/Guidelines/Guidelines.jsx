@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { firebaseConnect, getVal, withFirebase } from 'react-redux-firebase'
 
 import { Guidelines as GuidelinesComponent, MiniMenu, Social } from '../../../components'
-import { Guide, Guides, Shared } from '.'
+import { Guide, Guides, Public } from '.'
 
 import { Grid } from 'semantic-ui-react'
   
@@ -27,12 +27,13 @@ const Guidelines = props => (
         </Grid.Column>
         <Switch>
             {/* NOTE: any component being rendered must be wrapped inside "Grid.Column" */}
-            <Route exact path='/public' component={Shared} />
+            <Route exact path='/public' component={Public} />
             <Route exact path='/collection' render={(props) => <GuidelinesComponent domain='collection' />} />
+            <Route exact path='/guides/:authorId/:guideId' component={Guide} />
             <Route exact path='/guides/:guideId' component={Guide} />
             <Route exact path='/guides' component={Guides}/>
             <Route exact path='/drafts' render={(props) => <GuidelinesComponent domain='drafts' />} />
-            <Route component={Shared}/>
+            <Route component={Public}/>
         </Switch>
     </Grid>
 )
@@ -45,10 +46,10 @@ const mapStateToProps = ({ firebase: { auth }, appState, data }) => {
         auth,
         data: {
             ...data.toJS(),
-            collectionCount: 0,
+            favoritesCount: 0,
             guidesCount: 0,
             draftsCount: 0,
-            sharedCount: 0,
+            publicCount: 0,
         },
     }
 }
@@ -65,25 +66,25 @@ export default compose(
         { path: `${auth.uid}/drafts` },
     ]),
     connect(({ firebase }, { data: {
-        collectionCount,
+        favoritesCount,
         guidesCount,
         draftsCount,
-        sharedCount,
+        publicCount,
     }, auth, params }) => {
 
+        publicCount = Object.keys(firebase.data['public']||{}).length
+        
         let data
         if(auth.uid) data = firebase.data[auth.uid]
         
-        if(data) collectionCount = Object.keys(data['collection']||{}).length
         if(data) guidesCount = Object.keys(data['guides']||{}).length
-        if(data) draftsCount = Object.keys(data['drafts']||{}).length
+        if(data) favoritesCount = Object.keys(data['public']||{}).length
 
         // return { guide: getVal(firebase, `${auth.uid}/guides/${params.guideId}`) }
         return { 
-            collectionCount,
+            publicCount,
+            favoritesCount,
             guidesCount,
-            draftsCount,
-            sharedCount,
         }
     })
 )(Guidelines)
