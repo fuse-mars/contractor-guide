@@ -17,8 +17,23 @@ class Public extends React.Component {
     reportGuide(guideId) { // report as non appropriate
         debugger
     }
-    saveGuide(guideId) { // save to my favorites
-        debugger
+    unFavorGuide(guideId) { // remove from my favorites
+        let { auth, firebase } = this.props
+
+        return firebase.remove(`${auth.uid}/public/${guideId}`)
+        .catch(e => {
+            debugger
+        })
+    }
+    favorGuide(guideId) { // save to my favorites
+        
+        let { auth, guides, firebase } = this.props
+        let guide = guides[guideId]
+
+        return firebase.update(`${auth.uid}/public/${guideId}`, guide)
+        .catch(e => {
+            debugger            
+        })
     }
 
     unPublishGuide(guideId) { // @TODO duplicated "../Guides/Guides"
@@ -41,7 +56,8 @@ class Public extends React.Component {
                 <Grid.Column width={13}>
                     <GuidesComponent guides={guides}
                         reportGuide={guideId => this.reportGuide(guideId)}
-                        saveGuide={guideId => this.saveGuide(guideId)}
+                        favorGuide={guideId => this.favorGuide(guideId)}
+                        unFavorGuide={guideId => this.unFavorGuide(guideId)}
                         unPublishGuide={guideId => this.unPublishGuide(guideId)}
                     />
                 </Grid.Column>
@@ -65,9 +81,19 @@ const mapStateToProps = ({ firebase: { auth }, appState, data }) => {
 export default compose(
     connect(mapStateToProps),
     withFirebase, // add props.firebase
-    firebaseConnect(({ auth }) => [{ path: `public` }]),
+    firebaseConnect(({ auth }) => [
+        { path: `public` },
+        { path: `${auth.uid}/public` },
+    ]),
     // public = { path: '${auth.uid}/guides/<guideId>', author, authorId, ...guide }
     connect(({ firebase }, { auth }) => {
+        
+        // START very inefficient: fetching all favored things may crush the browser
+        let data = firebase.data[auth.uid]
+        let favoriteGuides = {}
+        if(data) favoriteGuides = data['public']
+        // END very inefficient
+
 
         let guides = firebase.data['public']
         let isPublic = true
@@ -77,8 +103,12 @@ export default compose(
 
             let { authorId } = guide
             let isAuthor = auth.uid === authorId
-            
-            return guides[key] = { ...guide, isAuthor, public: isPublic }
+
+            // @TODO START very inefficient: 
+            let favored = !!(favoriteGuides||{})[key]
+            // END very inefficient
+
+            return guides[key] = { ...guide, isAuthor, public: isPublic, favored }
         })
 
         console.log('[Guides => connect] guides', guides)

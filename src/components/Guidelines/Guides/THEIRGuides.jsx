@@ -6,7 +6,7 @@ import { Button, Card, Image, Icon, Feed, Form, Item, Message, TextArea, Comment
 
 import './Guides.css'
 
-const THEIRGuides = ({ uid, guideId, guide = {}, reportGuide, saveGuide, removeGuide }) => (
+const THEIRGuides = ({ uid, guideId, guide = {}, reportGuide, favorGuide, unFavorGuide }) => (
                 <Card fluid>
                 <Card.Content>
                     <Image floated='right' size='mini' src={(guide.author || {}).picture} />
@@ -24,16 +24,15 @@ const THEIRGuides = ({ uid, guideId, guide = {}, reportGuide, saveGuide, removeG
                 <div className="ui two column grid">
                     <div className="row">
                         <div className='column'>
-                            <a>
-                                <Icon name='like' /> 22 Favored
-                            </a>
+                            22 Favored
                         </div>
             
                         <div className='column'>
 
-                            {   guide.favored? 
-                                <SavedGuideActions uid={uid} guideId={guideId} reportGuide={reportGuide} saveGuide={saveGuide} /> :
-                                <PublishedGuideActions uid={uid} guideId={guideId} reportGuide={reportGuide} removeGuide={removeGuide} />
+                            {   
+                                guide.favored? 
+                                <FavoredGuideActions uid={uid} guideId={guideId} reportGuide={reportGuide} unFavorGuide={unFavorGuide} />:
+                                <PublishedGuideActions uid={uid} guideId={guideId} reportGuide={reportGuide} favorGuide={favorGuide} unFavorGuide={unFavorGuide} />
                             }
 
                         </div>
@@ -43,19 +42,19 @@ const THEIRGuides = ({ uid, guideId, guide = {}, reportGuide, saveGuide, removeG
               </Card>
             )
 
-export const PublishedGuideActions = ({ uid, guideId, reportGuide, saveGuide }) => (
-    <div className='ui three mini buttons'>
-        <Button onClick={reportGuide} basic color='red'>Report</Button>
-        <Button onClick={saveGuide} basic color='green' icon labelPosition='right'>Favorite<Icon name='like' /></Button>
-        <Button as={Link} to={'/guides/'+uid+'/'+guideId} basic color='teal' icon labelPosition='right'>View<Icon name='right arrow' /></Button>                                
+export const PublishedGuideActions = ({ uid, guideId, reportGuide, favorGuide }) => (
+    <div className='ui three mini buttons basic'>
+        <Button onClick={reportGuide}>Report</Button>
+        <Button onClick={favorGuide} icon labelPosition='right'>Favorite<Icon name='bookmark outline' /></Button>
+        <Button as={Link} to={'/guides/'+uid+'/'+guideId} icon labelPosition='right'>View<Icon name='right arrow' /></Button>                                
     </div>
 )
 
-export const SavedGuideActions = ({ uid, guideId, reportGuide, removeGuide }) => (
-    <div className='ui two mini buttons'>
-        <Button onClick={reportGuide} basic color='red'>Report</Button>
-        <Button onClick={removeGuide} basic color='orange'>Remove</Button>
-        <Button as={Link} to={'/guides/'+uid+'/'+guideId} basic color='teal' icon labelPosition='right'>View<Icon name='right arrow' /></Button>                                
+export const FavoredGuideActions = ({ uid, guideId, reportGuide, unFavorGuide }) => (
+    <div className='ui three mini buttons basic'>
+        <Button onClick={reportGuide}>Report</Button>
+        <Button onClick={unFavorGuide} icon labelPosition='right'><span style={{ color: '#21ba45' }}>Favorite</span><Icon name='bookmark' color='green' /></Button>        
+        <Button as={Link} to={'/guides/'+uid+'/'+guideId} icon labelPosition='right'>View<Icon name='right arrow' /></Button>                                
     </div>
 )
 

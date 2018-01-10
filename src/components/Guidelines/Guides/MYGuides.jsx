@@ -25,9 +25,7 @@ const MYGuides = ({ uid, guide = {}, guideId, unPublishGuide, deleteGuide, publi
                 <div className="ui two column grid">
                     <div className="row">
                         <div className='column'>
-                            <a>
-                                <Icon name='like' /> 22 Favored
-                            </a>
+                            22 Favored
                         </div>
             
                         <div className='column'>
@@ -47,17 +45,17 @@ const MYGuides = ({ uid, guide = {}, guideId, unPublishGuide, deleteGuide, publi
 
 
 export const PublishedGuideActions = ({ uid, guideId, unPublishGuide }) => (
-    <div className='ui two mini buttons'>
-        <Button onClick={unPublishGuide} basic color='orange'>Unpublish</Button>
-        <Button as={Link} to={'/guides/'+uid+'/'+guideId} basic color='teal' icon labelPosition='right'>View<Icon name='right arrow' /></Button>                                
+    <div className='ui two mini buttons basic'>
+        <Button onClick={unPublishGuide}>Unpublish</Button>
+        <Button as={Link} to={'/guides/'+uid+'/'+guideId} icon labelPosition='right'>View<Icon name='right arrow' /></Button>                                
     </div>
 )
 
 export const UnPublishedGuideActions = ({ uid, guideId, deleteGuide, publishGuide }) => (
-    <div className='ui three mini buttons'>
-        <Button onClick={deleteGuide} basic color='red'>Delete</Button>
-        <Button onClick={publishGuide} basic color='green'>Publish</Button>
-        <Button as={Link} to={'/guides/'+uid+'/'+guideId} basic color='teal' icon labelPosition='right'>View<Icon name='right arrow' /></Button>                                
+    <div className='ui three mini buttons basic'>
+        <Button onClick={deleteGuide}>Delete</Button>
+        <Button onClick={publishGuide} color='green'>Publish</Button>
+        <Button as={Link} to={'/guides/'+uid+'/'+guideId} icon labelPosition='right'>View<Icon name='right arrow' /></Button>                                
     </div>
 )
 

@@ -17,8 +17,13 @@ class Favorites extends React.Component {
     reportGuide(guideId) { // report as non appropriate
         debugger
     }
-    removeGuide(guideId) { // remove from my favorites
-        debugger
+    unFavorGuide(guideId) { // remove from my favorites
+        let { auth, firebase } = this.props
+
+        return firebase.remove(`${auth.uid}/public/${guideId}`)
+        .catch(e => {
+            debugger
+        })
     }
     render() {
         let { guides } = this.props
@@ -29,7 +34,7 @@ class Favorites extends React.Component {
                 <Grid.Column width={13}>
                     <GuidesComponent guides={guides}
                         reportGuide={guideId => this.reportGuide(guideId)}
-                        removeGuide={guideId => this.removeGuide(guideId)}
+                        unFavorGuide={guideId => this.unFavorGuide(guideId)}
                     />
                 </Grid.Column>
             </React.Fragment>
@@ -57,6 +62,8 @@ export default compose(
     connect(({ firebase }, { auth }) => {
 
         let isAuthor = false        
+        let isPublic = true
+        let favored = true
 
         let data
         if(auth.uid) data = firebase.data[auth.uid]
@@ -65,9 +72,9 @@ export default compose(
         if(data) guides = data['public']
 
 
-        Object.keys(guides).forEach(key => { // @TODO refactor: use Immutablejs
+        Object.keys(guides || {}).forEach(key => { // @TODO refactor: use Immutablejs
             let guide = guides[key]
-            return guides[key] = { ...guide, isAuthor }
+            return guides[key] = { ...guide, isAuthor, public: isPublic, favored }
         })
 
         console.log('[Guides => connect] guides', guides)

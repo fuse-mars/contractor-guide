@@ -10,7 +10,7 @@ import MYGuides from './MYGuides'
 import THEIRGuides from './THEIRGuides'
 
 const Guides = props => {
-    let { guides, unPublishGuide, deleteGuide, publishGuide, saveGuide, removeGuide, reportGuide } = props
+    let { guides, unPublishGuide, deleteGuide, publishGuide, favorGuide, unFavorGuide, reportGuide } = props
 
     let keys = Object.keys(guides||{})
     const events = keys.map(key => {
@@ -28,8 +28,8 @@ const Guides = props => {
             <THEIRGuides 
                 uid={authorId} guide={guide} guideId={key} key={key}
                 reportGuide={() => reportGuide(key)} // save to my favorites
-                saveGuide={() => saveGuide(key)} // save to my favorites
-                removeGuide={() => removeGuide(key)} // remove from my favorites
+                favorGuide={() => favorGuide(key)} // save to my favorites
+                unFavorGuide={() => unFavorGuide(key)} // remove from my favorites
             />
         )
     })

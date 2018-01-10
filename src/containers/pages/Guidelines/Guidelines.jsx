@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { firebaseConnect, getVal, withFirebase } from 'react-redux-firebase'
 
 import { Guidelines as GuidelinesComponent, MiniMenu, Social } from '../../../components'
-import { Guide, Guides, Public } from '.'
+import { Guide, Guides, Public, Favorites } from '.'
 
 import { Grid } from 'semantic-ui-react'
   
@@ -28,11 +28,10 @@ const Guidelines = props => (
         <Switch>
             {/* NOTE: any component being rendered must be wrapped inside "Grid.Column" */}
             <Route exact path='/public' component={Public} />
-            <Route exact path='/collection' render={(props) => <GuidelinesComponent domain='collection' />} />
+            <Route exact path='/favorites' component={Favorites} />
             <Route exact path='/guides/:authorId/:guideId' component={Guide} />
             <Route exact path='/guides/:guideId' component={Guide} />
             <Route exact path='/guides' component={Guides}/>
-            <Route exact path='/drafts' render={(props) => <GuidelinesComponent domain='drafts' />} />
             <Route component={Public}/>
         </Switch>
     </Grid>
@@ -54,22 +53,18 @@ const mapStateToProps = ({ firebase: { auth }, appState, data }) => {
     }
 }
 
-
-
-
 export default compose(
     connect(mapStateToProps),
     withFirebase, // add props.firebase
     firebaseConnect(({ auth, params }) => [
         { path: `${auth.uid}/guides` },
-        { path: `${auth.uid}/collection` },
-        { path: `${auth.uid}/drafts` },
+        { path: `public` },
+        { path: `${auth.uid}/public` },
     ]),
     connect(({ firebase }, { data: {
+        publicCount,
         favoritesCount,
         guidesCount,
-        draftsCount,
-        publicCount,
     }, auth, params }) => {
 
         publicCount = Object.keys(firebase.data['public']||{}).length
@@ -80,7 +75,8 @@ export default compose(
         if(data) guidesCount = Object.keys(data['guides']||{}).length
         if(data) favoritesCount = Object.keys(data['public']||{}).length
 
-        // return { guide: getVal(firebase, `${auth.uid}/guides/${params.guideId}`) }
+        console.log('[Guidelines] count', { publicCount, favoritesCount, guidesCount } )
+
         return { 
             publicCount,
             favoritesCount,
