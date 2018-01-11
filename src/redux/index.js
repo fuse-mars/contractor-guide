@@ -14,9 +14,6 @@ import createHistory from 'history/createHashHistory'
 
 import { routerReducer, routerMiddleware } from 'react-router-redux'
 
-
-
-
 import { reducer as reduxFormReducer } from 'redux-form'
 
 
@@ -25,16 +22,11 @@ export const history = createHistory()
 // Build the middleware for intercepting and dispatching navigation actions
 const middleware = routerMiddleware(history)
 
-
-
-
-
-
 const firebaseConfig = {
-  apiKey: 'AIzaSyAKKCLl9XJcpy4S2Dx8Hv1fDaj92dZ1WRU',
-  authDomain: 'guide-2e394.firebaseapp.com',
-  databaseURL: 'https://guide-2e394.firebaseio.com',
-  storageBucket: 'guide-2e394.appspot.com'
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET
 }
 // initialize firebase instance
 firebase.initializeApp(firebaseConfig) // <- new to v2.*.*
