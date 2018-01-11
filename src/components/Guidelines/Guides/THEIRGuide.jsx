@@ -6,7 +6,7 @@ import { Button, Card, Image, Icon, Feed, Form, Item, Message, TextArea, Comment
 
 import './Guides.css'
 
-const THEIRGuides = ({ uid, guideId, guide = {}, reportGuide, favorGuide, unFavorGuide }) => (
+const THEIRGuide = ({ uid, guideId, guide = {}, reportGuide, favorGuide, unFavorGuide }) => (
                 <Card fluid>
                 <Card.Content>
                     <Image floated='right' size='mini' src={(guide.author || {}).picture} />
@@ -58,4 +58,4 @@ export const FavoredGuideActions = ({ uid, guideId, reportGuide, unFavorGuide })
     </div>
 )
 
-export default THEIRGuides;
+export default THEIRGuide;

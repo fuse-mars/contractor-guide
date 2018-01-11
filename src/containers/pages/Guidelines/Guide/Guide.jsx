@@ -20,8 +20,15 @@ const ReduxFromNames = {
  * }
  */
 class Guide extends React.Component {
-    state = {
-        showLoginPage: false
+    toogleEditMode() {
+        // let editMode = !this.state.editMode
+        let { auth, firebase, guideId } = this.props
+        
+        // START Transaction: increment favorites count
+        firebase.ref(`${auth.uid}/guides/${guideId}/editMode`).once('value')
+        .then(snap => firebase.update(`${auth.uid}/guides/${guideId}`, { editMode: !snap.val() }))
+        // END Transaction: increment favorites count
+
     }
 
     /**
@@ -29,6 +36,7 @@ class Guide extends React.Component {
      * @param { contentType, content } step 
      */
     addNewStep(step) {
+
         let { auth, firebase, guideId } = this.props
 
         let createdAt = firebase.database.ServerValue.TIMESTAMP
@@ -49,10 +57,12 @@ class Guide extends React.Component {
 
     render() {
         let { guide } = this.props
+        // let { editMode } = this.state
+        // if(guide.editMode === true) editMode = guide.editMode
         return (
             <React.Fragment>
                 <Grid.Column width={13}>
-                    <GuideComponent guide={guide} onSubmit={step => this.addNewStep(step)} />
+                    <GuideComponent guide={guide} editMode={guide.editMode} toogleEditMode={() => this.toogleEditMode()} onSubmit={step => this.addNewStep(step)} />
                 </Grid.Column>
             </React.Fragment>
         );
@@ -75,9 +85,20 @@ const mapStateToProps = ({ firebase: { auth }, appState, data }, ownProps) => {
 export default compose(
     connect(mapStateToProps),
     withFirebase, // add props.firebase
-    firebaseConnect(({ auth, params }) => [{ path: `${params.authorId}/guides/${params.guideId}` }]),
+    firebaseConnect(({ auth, params }) => [{ 
+        path: `${params.authorId}/guides/${params.guideId}`,
+    },{
+        path: `auth/${params.authorId}`,        
+    }]),
     connect(({ firebase }, { auth, params: { authorId, guideId } }) => {
         
+        // START 
+        let userData = (firebase.data['auth']||{})[authorId]||{}
+        let name = userData['displayName']
+        let picture = userData['avatarUrl']
+        // START 
+
+
         let data = firebase.data[authorId]
         
         let guides
@@ -86,6 +107,10 @@ export default compose(
         let guide = {}
         if(guides) guide = guides[guideId]
         console.log('[Guide => connect] guide', guide)
+        
+        let isAuthor = auth.uid === authorId
+        let author = { name, picture }
+        guide = { ...guide, author, isAuthor, authorId }
 
         // return { guide: getVal(firebase, `${auth.uid}/guides/${params.guideId}`) }
         return { guide, guideId }

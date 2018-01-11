@@ -7,7 +7,7 @@ import { Button, Card, Image, Icon, Feed, Form, Item, Message, TextArea, Comment
 import './Guides.css';
 // meta:  { content: "0 Likes", like: { icon: "like" } },
 // summary: guide.description,
-const MYGuides = ({ uid, guide = {}, guideId, unPublishGuide, deleteGuide, publishGuide }) => (
+const MYGuide = ({ uid, guide = {}, guideId, unPublishGuide, deleteGuide, publishGuide }) => (
                 <Card fluid>
                 <Card.Content>
                     <Image floated='right' size='mini' src={(guide.author || {}).picture} />
@@ -59,4 +59,4 @@ export const UnPublishedGuideActions = ({ uid, guideId, deleteGuide, publishGuid
     </div>
 )
 
-export default MYGuides;
+export default MYGuide;

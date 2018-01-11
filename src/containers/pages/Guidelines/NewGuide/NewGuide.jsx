@@ -21,15 +21,16 @@ class NewGuide extends React.Component {
     saveNewGuide(newGuide) { // newGuide = { description }
         
         let { auth, firebase } = this.props
+        let { uid } = auth
 
         let createdAt = firebase.database.ServerValue.TIMESTAMP
         let updatedAt = firebase.database.ServerValue.TIMESTAMP
-        newGuide = { ...newGuide, createdAt, updatedAt }
+        newGuide = { ...newGuide, createdAt, updatedAt, editMode: true }
 
         return firebase.push(`${auth.uid}/guides`, newGuide)
         .then(({ key }) => {
             console.log('[NewGuide.saveNewGuide] res', key)
-            history.replace(`/guides/${key}`)
+            history.replace(`/guides/${uid}/${key}`)
         })
         .catch(e => {
             console.error('[NewGuide.saveNewGuide] e', e)

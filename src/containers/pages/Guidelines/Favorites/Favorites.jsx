@@ -18,9 +18,21 @@ class Favorites extends React.Component {
         debugger
     }
     unFavorGuide(guideId) { // remove from my favorites
-        let { auth, firebase } = this.props
+        let { auth, guides, firebase } = this.props
+        let guide = guides[guideId]
+        let { authorId } = guide
 
         return firebase.remove(`${auth.uid}/public/${guideId}`)
+
+
+
+        // START Transaction: increment favorites count
+        .then(e => firebase.ref(`${authorId}/guides/${guideId}/favoritesCount`).once('value'))
+        .then(snap => firebase.update(`${authorId}/guides/${guideId}`, { favoritesCount: ((snap.val()||0)-1) }))
+        // END Transaction: increment favorites count
+
+
+
         .catch(e => {
             debugger
         })
@@ -56,6 +68,41 @@ const mapStateToProps = ({ firebase: { auth }, appState, data }) => {
 
 export default compose(
     connect(mapStateToProps),
+    firebaseConnect((props) => {
+        return Object.values(props.favoriteGuides).filter(g=>g.path).map(guide => {
+            let {path} = guide
+            return { type: 'once', path }
+        })
+    }),
+
+    connect(({ firebase }, { auth, favoriteGuides }) => {
+
+        // let isAuthor = false        
+        let isPublic = true
+        let favored = true
+
+        let guides = {}
+
+        Object.keys(favoriteGuides).forEach(guideId => { // @TODO refactor: use Immutablejs
+            let meta = favoriteGuides[guideId]
+            let { authorId, author } = meta
+            console.log('[Public => connect] authorId', authorId, firebase.data[authorId])
+            
+            let guide = ((firebase.data[authorId]||{})['guides']||{})[guideId]
+
+            // let { authorId } = guide
+            let isAuthor = auth.uid === authorId
+
+            return guides[guideId] = { ...guide, author, isAuthor, public: isPublic, favored }
+        })
+
+        console.log('[Guides => connect] guides', guides)
+
+        return { guides }
+
+    })
+
+/*
     connect(({ firebase }, { auth }) => {
 
         let isAuthor = false        
@@ -79,5 +126,6 @@ export default compose(
         return { guides }
 
     })
+*/
 )(Favorites)
 // export default Favorites;

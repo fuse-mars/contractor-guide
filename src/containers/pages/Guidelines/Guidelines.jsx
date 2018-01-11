@@ -60,13 +60,17 @@ export default compose(
     }, auth, params }) => {
         console.log('[Guides => connect] uid', auth.uid)
 
-        publicCount = Object.keys(firebase.data['public']||{}).length
+        let favoriteGuides = {}
+        let publicGuides = firebase.data['public']||{}
+        publicCount = Object.keys(publicGuides).length
         
+
         let data
         if(auth.uid) data = firebase.data[auth.uid]
         
         if(data) guidesCount = Object.keys(data['guides']||{}).length
-        if(data) favoritesCount = Object.keys(data['public']||{}).length
+        if(data) favoriteGuides = data['public']||{}
+        favoritesCount = Object.keys(favoriteGuides).length
 
         console.log('[Guidelines] count', { publicCount, favoritesCount, guidesCount } )
 
@@ -74,6 +78,9 @@ export default compose(
             publicCount,
             favoritesCount,
             guidesCount,
+
+            publicGuides,
+            favoriteGuides,
         }
     })
 )(Guidelines)

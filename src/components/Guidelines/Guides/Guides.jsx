@@ -6,8 +6,8 @@ import { Button, Card, Image, Icon, Feed, Form, Item, Message, TextArea, Comment
 
 import './Guides.css';
 
-import MYGuides from './MYGuides'
-import THEIRGuides from './THEIRGuides'
+import MYGuide from './MYGuide'
+import THEIRGuide from './THEIRGuide'
 
 const Guides = props => {
     let { guides, unPublishGuide, deleteGuide, publishGuide, favorGuide, unFavorGuide, reportGuide } = props
@@ -19,13 +19,13 @@ const Guides = props => {
 
         return (
             guide.isAuthor? 
-            <MYGuides
+            <MYGuide
                 uid={authorId} guide={guide} guideId={key} key={key}
                 deleteGuide={() => deleteGuide(key)}                    
                 unPublishGuide={() => unPublishGuide(key)}
                 publishGuide={() => publishGuide(key)}                    
             />:
-            <THEIRGuides 
+            <THEIRGuide
                 uid={authorId} guide={guide} guideId={key} key={key}
                 reportGuide={() => reportGuide(key)} // save to my favorites
                 favorGuide={() => favorGuide(key)} // save to my favorites

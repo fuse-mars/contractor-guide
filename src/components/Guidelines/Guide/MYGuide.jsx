@@ -6,8 +6,6 @@ import { Card, Image } from 'semantic-ui-react'
 
 import { Field, reduxForm } from 'redux-form'
 
-import MYGuide from './MYGuide'
-import THEIRGuide from './THEIRGuide'
 
 import './Guide.css';
 
@@ -31,7 +29,7 @@ const contentTypeOptions = [
 
 const NewStep = ({ handleSubmit }) => (
     <Form onSubmit={handleSubmit} success>
-        <Field name="contentType" component={semanticFormField} as={Dropdown} fluid selection options={contentTypeOptions}  placeholder='Text' />
+        {/* <Field name="contentType" component={semanticFormField} as={Dropdown} fluid selection options={contentTypeOptions}  placeholder='Text' /> */}
         <Field name="content" component={semanticFormField} as={Form.Field} control={TextArea} placeholder='Add a step here...' />
         <Button icon labelPosition='left' ><Icon name='add' />add</Button>
     </Form>
@@ -47,7 +45,7 @@ const NewGuideStep = reduxForm({
  */
 const GuideSteps = props => {
     
-    let { steps = {}, onSubmit } = props
+    let { steps = {}, editMode, onSubmit } = props
 
     let keys = Object.keys(steps)
     let nextKey = keys.length + 1
@@ -73,21 +71,21 @@ const GuideSteps = props => {
     return (
         <Item.Group divided>
             {items}
-            <Item>
+            {editMode && <Item>
                 <Item.Image size='tiny' src={require('../../../assets/images/wireframe/image-text.png')} />
                 <Item.Content verticalAlign='middle'>
                     <Item.Description>
                         <p>Step {nextKey}</p>
-                        <NewGuideStep onSubmit={step => onSubmit({...step, order: nextKey })} />
+                        <NewGuideStep initialValues={{ contentType: 'TEXT' }} onSubmit={step => onSubmit({...step, order: nextKey })} />
                     </Item.Description>
                 </Item.Content>
-            </Item>
+            </Item>}
         </Item.Group>
     )
 }
 
 
-const GuideSummary = ({ guide }) => {
+const GuideSummary = ({ guide}) => {
     return (
 
         <React.Fragment>
@@ -106,23 +104,66 @@ const GuideSummary = ({ guide }) => {
     )
 }
 
-const Guide = ({ guide = {}, editMode, toogleEditMode, onSubmit, guideId, unPublishGuide, deleteGuide, publishGuide, favorGuide, unFavorGuide, reportGuide }) => {
+const Guide = ({ guide = {}, editMode, toogleEditMode, onSubmit, uid, guideId, unPublishGuide, deleteGuide, publishGuide }) => {
         return (
-            guide.isAuthor? 
-            <MYGuide
-                uid={guide.authorId} guide={guide} guideId={guideId}
-                editMode={editMode} onSubmit={onSubmit} toogleEditMode={toogleEditMode}
-                deleteGuide={() => deleteGuide(guideId)}                    
-                unPublishGuide={() => unPublishGuide(guideId)}
-                publishGuide={() => publishGuide(guideId)}                    
-            />:
-            <THEIRGuide
-                uid={guide.authorId} guide={guide} guideId={guideId}
-                reportGuide={() => reportGuide(guideId)} // save to my favorites
-                favorGuide={() => favorGuide(guideId)} // save to my favorites
-                unFavorGuide={() => unFavorGuide(guideId)} // remove from my favorites
-            />
+        <Card fluid>
+            <Card.Content>
+                <GuideSummary  guide={guide} />
+            </Card.Content>
+                
+            <Card.Content extra>
+                <GuideSteps steps={guide.steps} editMode={editMode} onSubmit={onSubmit} />
+            </Card.Content>
+
+            <Card.Content extra>
+
+            <div className="ui two column grid">
+                    <div className="row">
+                        <div className='column'>
+                            {guide.favoritesCount||0} Favored
+                        </div>
+            
+                        <div className='column'>
+
+                            {
+                                guide.public?
+                                <PublishedGuideActions uid={uid} guideId={guideId} unPublishGuide={unPublishGuide} toogleEditMode={toogleEditMode} editMode={editMode} /> :
+                                <UnPublishedGuideActions uid={uid} guideId={guideId} deleteGuide={deleteGuide} publishGuide={publishGuide} toogleEditMode={toogleEditMode} editMode={editMode} />
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+            </Card.Content>
+
+        </Card>
         )
     }
 
 export default Guide;
+
+export const PublishedGuideActions = ({ uid, guideId, unPublishGuide, toogleEditMode, editMode }) => (
+    <div className='ui two mini buttons basic'>
+        <Button onClick={unPublishGuide}>Unpublish</Button>
+        <Button onClick={toogleEditMode} icon labelPosition='right'>
+            {editMode?
+                <React.Fragment>Done<Icon name='thumbs up outline' /></React.Fragment>:
+                <React.Fragment>Edit<Icon name='edit outline' /></React.Fragment>
+            }
+        </Button>                                
+    </div>
+)
+
+export const UnPublishedGuideActions = ({ uid, guideId, deleteGuide, publishGuide, toogleEditMode, editMode }) => (
+    <div className='ui three mini buttons basic'>
+        <Button onClick={deleteGuide}>Delete</Button>
+        <Button onClick={publishGuide} color='green'>Publish</Button>
+        <Button onClick={toogleEditMode} icon labelPosition='right'>
+            {editMode?
+                <React.Fragment>Done<Icon name='thumbs up outline' /></React.Fragment>:
+                <React.Fragment>Edit<Icon name='edit outline' /></React.Fragment>
+            }
+        </Button>                                
+    </div>
+)
