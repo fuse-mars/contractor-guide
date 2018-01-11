@@ -56,9 +56,6 @@ const mapStateToProps = ({ firebase: { auth }, appState, data }) => {
 
 export default compose(
     connect(mapStateToProps),
-    withFirebase, // add props.firebase
-    firebaseConnect(({ auth }) => [{ path: `${auth.uid}/public` }]),
-    // published = { path: '${auth.uid}/guides/<guideId>', author: { name }, authorId, ...guide }
     connect(({ firebase }, { auth }) => {
 
         let isAuthor = false        

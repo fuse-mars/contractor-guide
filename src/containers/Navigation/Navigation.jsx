@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Router, Redirect, Switch } from 'react-router';
 import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { firebaseConnect, getVal, withFirebase } from 'react-redux-firebase'
 
 import { Home, Landing, Login, Guidelines, NewGuide, Guide } from '../pages';
 
@@ -83,10 +85,15 @@ const mapStateToProps = ({ firebase: { auth, profile }, appState, data }) => {
   }
 }
 
-// export default compose(
+export default compose(
 //   withFirebase, // add props.firebase
-//   connect(mapStateToProps),
-// )(Navigation)
+connect(mapStateToProps),
+firebaseConnect(({ auth, params }) => [
+  { path: `${auth.uid}/guides` },
+  { path: `public` },
+  { path: `${auth.uid}/public` },
+])
+)(Navigation)
 
-export default connect(mapStateToProps)(Navigation)
+// export default connect(mapStateToProps)(Navigation)
 // export default Navigation

@@ -20,7 +20,7 @@ class Public extends React.Component {
     unFavorGuide(guideId) { // remove from my favorites
         let { auth, firebase } = this.props
 
-        return firebase.remove(`${auth.uid}/public/${guideId}`)
+        firebase.remove(`${auth.uid}/public/${guideId}`)
         .catch(e => {
             debugger
         })
@@ -80,13 +80,9 @@ const mapStateToProps = ({ firebase: { auth }, appState, data }) => {
 
 export default compose(
     connect(mapStateToProps),
-    withFirebase, // add props.firebase
-    firebaseConnect(({ auth }) => [
-        { path: `public` },
-        { path: `${auth.uid}/public` },
-    ]),
     // public = { path: '${auth.uid}/guides/<guideId>', author, authorId, ...guide }
     connect(({ firebase }, { auth }) => {
+        console.log('[Public => connect] uid', auth.uid)
         
         // START very inefficient: fetching all favored things may crush the browser
         let data = firebase.data[auth.uid]
@@ -110,8 +106,6 @@ export default compose(
 
             return guides[key] = { ...guide, isAuthor, public: isPublic, favored }
         })
-
-        console.log('[Guides => connect] guides', guides)
 
         return { guides }
 

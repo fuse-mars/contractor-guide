@@ -25,7 +25,7 @@ const MYGuides = ({ uid, guide = {}, guideId, unPublishGuide, deleteGuide, publi
                 <div className="ui two column grid">
                     <div className="row">
                         <div className='column'>
-                            22 Favored
+                            {guide.favoritesCount||0} Favored
                         </div>
             
                         <div className='column'>

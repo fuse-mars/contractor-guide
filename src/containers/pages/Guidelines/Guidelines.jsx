@@ -27,17 +27,14 @@ const Guidelines = props => (
         </Grid.Column>
         <Switch>
             {/* NOTE: any component being rendered must be wrapped inside "Grid.Column" */}
-            <Route exact path='/public' component={Public} />
-            <Route exact path='/favorites' component={Favorites} />
+            <Route exact path='/public' render={() => <Public {...props} />} />
+            <Route exact path='/favorites' render={() => <Favorites {...props} />} />
             <Route exact path='/guides/:authorId/:guideId' component={Guide} />
-            <Route exact path='/guides/:guideId' component={Guide} />
-            <Route exact path='/guides' component={Guides}/>
-            <Route component={Public}/>
+            <Route exact path='/guides' render={() => <Guides {...props} />}/>
+            <Route render={() => <Public {...props} />}/>
         </Switch>
     </Grid>
 )
-
-// <Route render={(props) => (<Social />)} />
 
 const mapStateToProps = ({ firebase: { auth }, appState, data }) => {
     return {
@@ -56,16 +53,12 @@ const mapStateToProps = ({ firebase: { auth }, appState, data }) => {
 export default compose(
     connect(mapStateToProps),
     withFirebase, // add props.firebase
-    firebaseConnect(({ auth, params }) => [
-        { path: `${auth.uid}/guides` },
-        { path: `public` },
-        { path: `${auth.uid}/public` },
-    ]),
     connect(({ firebase }, { data: {
         publicCount,
         favoritesCount,
         guidesCount,
     }, auth, params }) => {
+        console.log('[Guides => connect] uid', auth.uid)
 
         publicCount = Object.keys(firebase.data['public']||{}).length
         

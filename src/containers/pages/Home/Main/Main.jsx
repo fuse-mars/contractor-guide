@@ -3,8 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 
 import { NewGuide, Guidelines, Logout } from '../../index';
 
-class Main extends React.Component {
-  render() {
+// class Main extends React.Component {
+const Main = () => {
     return (
 
       <main style={{ paddingTop: '90px', paddingBottom: '30px' }}>
@@ -17,6 +17,6 @@ class Main extends React.Component {
 
     );
   }
-}
+// }
 
 export default Main;

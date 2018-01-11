@@ -90,8 +90,6 @@ const mapStateToProps = ({ firebase: { auth, profile }, appState, data }) => {
 
 export default compose(
     connect(mapStateToProps),
-    withFirebase, // add props.firebase
-    firebaseConnect(({ auth }) => [{ path: `${auth.uid}/guides` }]),
     connect(({ firebase }, { auth, profile }) => {
         
         let isAuthor = true
