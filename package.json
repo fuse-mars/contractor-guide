@@ -22,7 +22,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "concurrently": "^3.5.1",
+    "concurrently": "^4.0.1",
     "pretender": "git+https://github.com/fuse-mars/pretender.git"
   },
   "jest": {
