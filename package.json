@@ -10,7 +10,7 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",
     "redux-mastermind": "^3.1.4",
-    "semantic-ui-react": "^0.78.0"
+    "semantic-ui-react": "^0.85.0"
   },
   "scripts": {
     "start": "npm run react:start",
